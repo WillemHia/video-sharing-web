@@ -41,6 +41,8 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^9.0.0"
+    "node-sass": "^9.0.0",
+    "react-app-rewired": "^2.2.1",
+    "scoped-css-loader": "^1.0.0"
   }
 }

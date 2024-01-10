@@ -8,7 +8,7 @@
     var dpr;
     var refreshRootFont;
     if (viewport) {
-      var content = viewport.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+      var content = viewport.getAttribute('content').match(/initial-scale=([\d.]+)/);
       if (content) {
         scale = parseFloat(content[1]);
         dpr = parseInt(1 / scale);

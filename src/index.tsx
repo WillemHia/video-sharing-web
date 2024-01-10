@@ -6,9 +6,9 @@ import '@/assets/styles/index.scss';
 import App from './App';
 import store from './stores';
 import reportWebVitals from './reportWebVitals';
-import '@/assets/scripts/rem'
+import { adjustViewport } from './utils/adjust';
 
-
+adjustViewport(window, document)
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

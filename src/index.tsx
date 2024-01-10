@@ -6,6 +6,7 @@ import '@/assets/styles/index.scss';
 import App from './App';
 import store from './stores';
 import reportWebVitals from './reportWebVitals';
+import '@/assets/scripts/rem'
 
 
 const root = ReactDOM.createRoot(

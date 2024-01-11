@@ -90,13 +90,3 @@ export const adjustViewport = (win: Window, doc: Document) => {
     document.body.removeChild(div);
   }
 }
-
-//判断浏览器宽度,当宽度变化时,重新返回
-export const getIsMobile = (): boolean => {
-  let width: number = document.documentElement.clientWidth;
-  if (width < 768) {
-    return true;
-  } else {
-    return false;
-  }
-}

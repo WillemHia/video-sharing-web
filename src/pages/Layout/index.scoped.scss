@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .pc-header {
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #242424;
+    }
+
+    .navigate {
+        height: 100%;
+        background-color: #242424;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .layout {
+        background-color: #3c3c3c;
+        margin-top: 60px;
+        flex-grow: 1;
+        padding: 10px;
+    }
+
+    .header {
+        display: none;
+    }
+
+    .tabbar {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        .header {
+            display: block;
+        }
+
+        .tabbar {
+            display: block;
+        }
+
+        .pc-header {
+            display: none;
+        }
+
+        .navigate {
+            display: none;
+        }
+    }
+}

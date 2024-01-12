@@ -1,9 +1,16 @@
 import React, { FC } from "react";
 
-const PCHeader: FC = () => {
+
+
+interface Props {
+    shortNavVisible: boolean;
+    changeNvaLen: (visible: boolean) => void;
+}
+
+const PCHeader: FC<Props> = ({ changeNvaLen, shortNavVisible }) => {
     return (
         <div>
-            Navigate
+            <span onClick={() => changeNvaLen(!shortNavVisible)}>缩小</span>
         </div>
     )
 }

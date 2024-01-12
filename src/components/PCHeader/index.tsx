@@ -1,5 +1,8 @@
 import React, { FC } from "react";
-
+import "./index.scoped.scss";
+import NavFewerIcon from "@/assets/images/navFewer.png";
+import NavSpreadIcon from "@/assets/images/navSpread.png";
+import SearchIcon from "@/assets/images/search.png";
 
 
 interface Props {
@@ -9,8 +12,17 @@ interface Props {
 
 const PCHeader: FC<Props> = ({ changeNvaLen, shortNavVisible }) => {
     return (
-        <div>
-            <span onClick={() => changeNvaLen(!shortNavVisible)}>缩小</span>
+        <div className="container">
+            <img
+                onClick={() => changeNvaLen(!shortNavVisible)}
+                src={shortNavVisible ? NavSpreadIcon : NavFewerIcon}
+                style={{ left: `${shortNavVisible ? '60px' : '170px'}` }}
+                alt=""
+            />
+            <div className="search">
+                <input type="text" placeholder="搜索" />
+                <img src={SearchIcon} alt="" />
+            </div>
         </div>
     )
 }

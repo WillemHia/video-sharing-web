@@ -11,13 +11,13 @@ const Layout: FC = () => {
 
     return (
         <div className="container">
-            <div className="header">
+            <header className="header">
                 <Header />
-            </div>
-            <div className="pc-header">
+            </header>
+            <header className="pc-header">
                 <PCHeader changeNvaLen={setShortNavVisible} shortNavVisible={shortNavVisible}/>
-            </div>
-            <div className="navigate" style={{ width: `${shortNavVisible ? '60px' : '150px'}` }}>
+            </header>
+            <div className="navigate" style={{ width: `${shortNavVisible ? '60px' : '170px'}` }}>
                 <Navigate />
             </div>
             <div className="layout">

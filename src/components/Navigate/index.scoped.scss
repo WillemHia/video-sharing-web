@@ -24,7 +24,7 @@
             font-weight: 700;
             color: #fff;
             opacity: 1;
-            transition: opacity 0.1s 0.3s ease-in-out;
+            transition: opacity 0.2s 0.3s ease-in-out;
         }
 
         &-text {
@@ -45,15 +45,40 @@
             padding: 5px 10px;
             border: 6px solid #242424;
             border-radius: 10px;
-            display: flex;
             align-items: center;
-            justify-content: flex-start;
-            gap: 10px;
             cursor: pointer;
-            line-height: 1.5714285714285714;
+            position: relative;
+
+            &-text-active {
+                position: absolute;
+                left: 37px;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 1;
+                transition: opacity 0.2s 0.3s ease-in-out;
+            }
+
+            &-text {
+                opacity: 0;
+                transition: opacity 0.1s ease-out;
+            }
+
+            &-icon-active {
+                position: absolute;
+                left: 11px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 16px;
+                transition: all 0.2s ease-in-out,
+                            color 0s;
+            }
 
             &-icon {
-                font-size: 16px;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                font-size: 18px;    
+                transition: all 0.2s 0.3s ease-in-out,
+                            color 0s;
             }
         }
 

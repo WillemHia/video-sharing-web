@@ -15,14 +15,14 @@ const Navigate: FC<Props> = ({ shortNavVisible }) => {
                 <span className={`logo-text-active ${shortNavVisible && 'logo-text'}`}>视频网站</span>
             </div>
             <ul className="nav">
-                <li className="nav-item nav-item-active"><HomeOutlined className="nav-item-icon"/>首页</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>推荐</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>热门</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>追番</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>影视</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>直播</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>专栏</li>
-                <li className="nav-item"><HomeOutlined className="nav-item-icon"/>广场</li>
+                <li className="nav-item nav-item-active"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>首页</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>推荐</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>热门</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>追番</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>影视</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>直播</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>专栏</span></li>
+                <li className="nav-item"><HomeOutlined className={`nav-item-icon-active ${shortNavVisible && 'nav-item-icon'}`}/><span className={`nav-item-text-active ${shortNavVisible && 'nav-item-text'}`}>广场</span></li>
             </ul>
         </div>
     )

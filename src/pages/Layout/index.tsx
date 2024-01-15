@@ -16,9 +16,13 @@ const Layout: FC = () => {
                 <Header />
             </header>
             <header className="pc-header">
-                <PCHeader changeNavLen={setShortNavVisible} shortNavVisible={shortNavVisible}/>
+                <PCHeader changeNavLen={setShortNavVisible} shortNavVisible={shortNavVisible} />
             </header>
-            <div className="navigate" style={{ width: `${shortNavVisible ? NAV_SHORT_LENGTH : NAV_LONG_LENGTH}` }}>
+            <div className="navigate"
+                style={{
+                    width: `${shortNavVisible ? NAV_SHORT_LENGTH : NAV_LONG_LENGTH}`,
+                    transition: `${shortNavVisible ? 'all 0.3s ease-in-out' : 'all 0.3s 0.2s ease-in-out'}`
+                }}>
                 <Navigate shortNavVisible={shortNavVisible} />
             </div>
             <div className="layout">

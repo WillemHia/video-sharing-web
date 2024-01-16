@@ -3,28 +3,31 @@
     height: 100%;
     position: relative;
     z-index: 2;
-    overflow: hidden;
 
     .logo {
-        width: 170px;
+        width: 100%;
         height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 15px;
+        position: relative;
 
         &-img {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
             width: 36px;
             aspect-ratio: 1/1;
-            margin-left: 15px;
         }
 
         &-text-active {
+            position: absolute;
+            left: 66px;
+            top: 50%;
+            transform: translateY(-50%);
             font-size: 22px;
             font-weight: 700;
             color: #fff;
             opacity: 1;
-            transition: opacity 0.2s 0.3s ease-in-out;
+            transition: opacity 0.1s 0.4s ease-in-out;
         }
 
         &-text {
@@ -38,7 +41,7 @@
         font-size: 16px;
         font-weight: 500;
         color: #979797;
-        
+
         .nav-item {
             width: 100%;
             height: 50px;
@@ -48,6 +51,7 @@
             align-items: center;
             cursor: pointer;
             position: relative;
+            transition: all 0.3s ease-in-out;
 
             &-text-active {
                 position: absolute;
@@ -70,21 +74,56 @@
                 transform: translateY(-50%);
                 font-size: 16px;
                 transition: all 0.2s ease-in-out,
-                            color 0s;
+                    color 0s;
             }
 
             &-icon {
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%);
-                font-size: 18px;    
+                font-size: 18px;
                 transition: all 0.2s 0.3s ease-in-out,
-                            color 0s;
+                    color 0s;
+            }
+
+            &-tip {
+                position: absolute;
+                right: calc(-100% - 12px);
+                top: 0;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                border-radius: 6px;
+                opacity: 0;
+                transform: translateX(10px);
+                visibility: hidden;
+                color: #fff;
+                transition: all 0.2s ease-in-out,
+            }
+
+            &-tip:after {
+                content: "";
+                position: absolute;
+                right: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+                border: 6px solid transparent;
+                border-right-color: rgba(0, 0, 0, 0.6);
             }
         }
 
         .nav-item:hover {
             color: #fff;
             background-color: #3d3d3d;
+        }
+
+        .nav-item:hover .nav-item-tip {
+            opacity: 1;
+            transform: translateX(0);
+            visibility: visible;
+            transition: all 0.5s ease-in-out,
         }
 
         .nav-item-active {

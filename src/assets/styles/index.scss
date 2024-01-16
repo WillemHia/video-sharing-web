@@ -1,12 +1,16 @@
+@font-face {
+    font-family: '阿里妈妈方圆体 VF Regular';
+    src: url('../fonts/AlimamaFangYuanTiVF-Thin.woff') format('woff'),
+        url('../fonts/AlimamaFangYuanTiVF-Thin.woff2') format('woff2'),
+        url('../fonts/AlimamaFangYuanTiVF-Thin.ttf') format('truetype');
+    font-weight: normal;
+}
+
 html,
 body,
 input,
 button {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: '阿里妈妈方圆体 VF Regular';
 }
 
 code {

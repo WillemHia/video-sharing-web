@@ -3,6 +3,7 @@
     width: 100%;
     height: 100%;
     position: relative;
+    background-color: #242424;
 
     .pc-header {
         width: 100%;
@@ -10,17 +11,17 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-color: #242424;
+        // background-color: #242424;
     }
 
     .navigate {
         height: 100%;
-        background-color: #242424;
+        // background-color: #242424;
         transition: all 0.3s 0.2s ease-in-out;
     }
 
     .layout {
-        background-color: #3c3c3c;
+        // background-color: #3c3c3c;
         margin-top: 60px;
         flex-grow: 1;
         padding: 10px;

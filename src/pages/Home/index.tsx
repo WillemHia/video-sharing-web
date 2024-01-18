@@ -1,18 +1,17 @@
 import React, { FC } from "react";
-import { useAppSelector, useAppDispatch } from "@/stores/hooks";
-import { increment, decrement, selectCount, incrementAsync, incrementByAmount, incrementIfOdd } from "@/stores/counterSlice";
+import "./index.scoped.scss";
 
 const Home: FC = () => {
-    const count = useAppSelector(selectCount);
-    const dispatch = useAppDispatch();
+
     return (
-        <div>
-            {/* <div>{count}</div>
-            <button onClick={() => dispatch(increment())}>+</button>
-            <button onClick={() => dispatch(decrement())}>-</button>
-            <button onClick={() => dispatch(incrementAsync(2))}>async +</button>
-            <button onClick={() => dispatch(incrementByAmount(3))}>+ 3</button>
-            <button onClick={() => dispatch(incrementIfOdd())}>+ if odd</button> */}
+        <div className="container-pc">
+            <div className="video-list">
+                <div className="video-item"></div>
+                <div className="video-item"></div>
+                <div className="video-item"></div>
+                <div className="video-item"></div>
+            </div>
+            <div className="video-choose"></div>
         </div>
     );
 };

@@ -37,8 +37,13 @@
 
 @media screen and (max-width: 768px) {
     .container {
+        flex-direction: column;
+
         .header {
             display: block;
+            position: absolute;
+            z-index: 99;
+            width: 100%;
         }
 
         .tabbar {
@@ -51,6 +56,13 @@
 
         .navigate {
             display: none;
+        }
+
+        .layout {
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+            padding: 0.26666rem;
         }
     }
 }

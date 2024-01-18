@@ -1,16 +1,15 @@
 import React, { FC } from "react";
-import { NavLink } from "react-router-dom";
+import { VideoCameraAddOutlined } from "@ant-design/icons";
+import Button from "../Button";
+import "./index.scoped.scss";
 
 const Tabbar: FC = () => {
     return (
-        <>
-            <NavLink to="/myself">
-                <div>Myself</div>
-            </NavLink>
-            <NavLink to="/home">
-                <div>Home</div>
-            </NavLink>
-        </>
+        <div className="container">
+            <span className="active-item item">首页</span>
+            <Button isMobile={true}><VideoCameraAddOutlined /></Button>
+            <span className="item">我</span>
+        </div>
     );
 }
 

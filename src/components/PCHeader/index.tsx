@@ -1,10 +1,11 @@
-import React, { FC } from "react";
-import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined } from "@ant-design/icons";
+import React, { FC, useState, useRef, useEffect } from "react";
+import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined } from "@ant-design/icons";
 import "./index.scoped.scss";
-import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH } from "@/constants";
+import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH, SEARCH_HISTORY_LIST } from "@/constants";
 import Button from "../Button";
 import NavFewerIcon from "@/assets/images/navFewer.png";
 import NavSpreadIcon from "@/assets/images/navSpread.png";
+import HOTICON from "@/assets/images/hot.png";
 
 
 interface Props {
@@ -14,6 +15,29 @@ interface Props {
 
 const userInfo = true;
 const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
+    const [historyList, setHistoryList] = useState(SEARCH_HISTORY_LIST.slice(0, 5));
+    const [showMore, setShowMore] = useState(false);
+    const [showSearchBoard, setShowSearchBoard] = useState(false);
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    const handleClickOutside = (e: MouseEvent) => {
+        if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+            setShowSearchBoard(false);
+        }
+    };
+
+    const showMoreHistory = () => {
+        showMore ? setHistoryList(SEARCH_HISTORY_LIST.slice(0, 5)) : setHistoryList(SEARCH_HISTORY_LIST);
+        setShowMore(!showMore);
+    }
+
     return (
         <div className="container">
             <div
@@ -24,13 +48,48 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
                     <img src={shortNavVisible ? NavSpreadIcon : NavFewerIcon} alt="" />
                 </Button>
             </div>
-            <div className="search">
-                <input type="text" placeholder="搜索" />
+            <div className="search" ref={searchRef}>
+                <input type="text" placeholder="搜索" onFocus={() => setShowSearchBoard(true)} />
                 <SearchOutlined className="search-icon" />
-                <div className="search-board">
+                <div className={`search-board ${showSearchBoard && 'search-board-active'}`} onClick={(e) => e.stopPropagation()}>
                     <div className="search-history-header">
                         <span className="title">搜索历史</span>
-                        <DeleteOutlined className="delete-icon"/>
+                        <DeleteOutlined className="delete-icon" />
+                    </div>
+                    <div className="search-history-body">
+                        {historyList.map(item => (
+                            <div className="search-history-item" key={item.id}>{item.name}</div>
+                        ))}
+                        <div className="search-history-item-more" onClick={showMoreHistory}>{showMore ? <UpOutlined /> : <DownOutlined />}</div>
+                    </div>
+                    <div className="hot-video-header">
+                        <span>热门视频</span>
+                    </div>
+                    <div className="hot-video-body">
+                        <div className="hot-video-item hot-video-item-front">
+                            <div className="hot-video-item-rank">
+                                1
+                            </div>
+                            <div className="hot-video-item-info">
+                                过年回家，妈妈给我做了一桌好吃的
+                            </div>
+                            <div className="hot-video-item-hot">
+                                <img src={HOTICON} alt="" />
+                                <span>123.5万</span>
+                            </div>
+                        </div>
+                        <div className="hot-video-item">
+                            <div className="hot-video-item-rank">
+                                2
+                            </div>
+                            <div className="hot-video-item-info">
+                                话剧肖申克的救赎走进上海大剧院
+                            </div>
+                            <div className="hot-video-item-hot">
+                                <img src={HOTICON} alt="" />
+                                <span>101.5万</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

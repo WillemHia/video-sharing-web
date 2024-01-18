@@ -1,0 +1,46 @@
+.container {
+    width: 100%;
+    height: 1.6rem;
+    font-size: 0.42666rem;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.53333rem;
+    padding: 0 0.26666rem;
+
+    img {
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    .nav-list {
+        display: flex;
+        align-items: center;
+        gap: 0.26666rem;
+        flex-grow: 1;
+        flex-direction: row-reverse;
+        color: #9d9d9d;
+        font-weight: 700;
+        overflow-y: auto;
+        padding: 0.1rem 0;
+        //隐藏滚动条
+        scrollbar-width: none;
+
+        .nav-item {
+            flex-shrink: 0;
+            padding: 0.13333rem 0.26666rem;
+            text-shadow: 0 0 0.26666rem #676767;
+        }
+
+        .nav-item-active {
+            color: #fff;
+            text-shadow: 0 0 0.26666rem #000000;
+        }
+    }
+
+    .search-icon {
+        font-size: 0.64rem;
+        color: #fff;
+        filter: drop-shadow(#000000 0 0 0.2rem);
+    }
+}

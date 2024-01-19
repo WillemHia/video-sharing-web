@@ -23,9 +23,7 @@
         font-weight: 700;
         overflow-y: auto;
         padding: 0.1rem 0;
-        //隐藏滚动条
-        scrollbar-width: none;
-
+        
         .nav-item {
             flex-shrink: 0;
             padding: 0.13333rem 0.26666rem;

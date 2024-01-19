@@ -25,6 +25,8 @@
         margin-top: 60px;
         flex-grow: 1;
         padding: 10px;
+        position: relative;
+        z-index: 0;
     }
 
     .header {

@@ -128,6 +128,11 @@
                         cursor: pointer;
                     }
                 }
+
+                .no-history {
+                    font-size: 14px;
+                    color: #8d8d8d;
+                }
             }
 
             .hot-video-header {
@@ -177,12 +182,12 @@
 
                 .hot-video-item-front {
                     background: linear-gradient(to right, #fff8c6, #ffffff);
-                    
+
                     .hot-video-item-rank {
                         color: #ffa700;
                     }
 
-                    .hot-video-item-hot{
+                    .hot-video-item-hot {
                         color: #ffe0a4;
                     }
                 }
@@ -251,6 +256,7 @@
 
         .user-menu {
             position: absolute;
+            z-index: 1;
             top: 100%;
             right: 0;
             width: 100%;

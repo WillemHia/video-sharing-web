@@ -2,17 +2,19 @@
     width: 100%;
     height: 100%;
     display: flex;
-    gap: 20px;
-    padding: 10px 20px;
+    align-items: center;
+    gap: 30px;
+    padding: 10px 10px;
 
     .video-list {
+        width: 0;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        overflow-y: auto;
         flex-grow: 1;
-        scrollbar-width: none;
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
 
         .video-item {
             width: 100%;
@@ -24,6 +26,23 @@
     }
 
     .video-choose {
-        width: 60px;
+        width: 50px;
+        font-size: 20px;
+        color: #dadada;
+        display: flex;
+        flex-direction: column;
+        background-color: #292929;
+        border-radius: 27px;
+        border: 1px solid #858585;
+
+        .video-choose-icon {
+            padding: 15px 0;
+            cursor: pointer;
+        }
+
+        .video-choose-icon-disabled {
+            color: #535353;
+            pointer-events: none;
+        }
     }
 }

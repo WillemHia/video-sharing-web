@@ -61,6 +61,7 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
                             <div className="search-history-item" key={item.id}>{item.name}</div>
                         ))}
                         <div className="search-history-item-more" onClick={showMoreHistory}>{showMore ? <UpOutlined /> : <DownOutlined />}</div>
+                        {/* <span className="no-history">暂无历史</span> */}
                     </div>
                     <div className="hot-video-header">
                         <span>热门视频</span>

@@ -128,11 +128,11 @@
 
         .nav-item-active {
             color: #fff;
-            background-color: #d4237a;
+            background-color: var(--primary-color);
         }
 
         .nav-item-active:hover {
-            background-color: #d4237a;
+            background-color: var(--primary-color);
         }
     }
 }

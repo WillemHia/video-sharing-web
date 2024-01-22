@@ -10,7 +10,7 @@ import "./index.scoped.scss";
 
 const Home: FC = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [swiperInstance, setSwiperInstance] = useState<SwiperClass>();
+    const [swiperPCInstance, setSwipePCrInstance] = useState<SwiperClass>();
     const [introductionVisible, setIntroductionVisible] = useState(false);
 
     return (
@@ -25,7 +25,7 @@ const Home: FC = () => {
                         keyboard={true}
                         modules={[Mousewheel, Keyboard]}
                         onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
-                        onSwiper={setSwiperInstance}
+                        onSwiper={setSwipePCrInstance}
                     >
                         {[1, 2, 3, 4, 5].map((item, index) => (
                             <SwiperSlide key={index}>
@@ -42,8 +42,8 @@ const Home: FC = () => {
                     {introductionVisible && <Introduction type={IntroudctionType.VIDEO} onClosed={() => setIntroductionVisible(false)} />}
                 </div>
                 <div className="video-choose">
-                    <UpOutlined className={`video-choose-icon ${activeIndex === 0 && 'video-choose-icon-disabled'}`} onClick={() => swiperInstance!.slidePrev()} />
-                    <DownOutlined className={`video-choose-icon ${activeIndex === 4 && 'video-choose-icon-disabled'}`} onClick={() => swiperInstance!.slideNext()} />
+                    <UpOutlined className={`video-choose-icon ${activeIndex === 0 && 'video-choose-icon-disabled'}`} onClick={() => swiperPCInstance!.slidePrev()} />
+                    <DownOutlined className={`video-choose-icon ${activeIndex === 4 && 'video-choose-icon-disabled'}`} onClick={() => swiperPCInstance!.slideNext()} />
                 </div>
             </div>
             <div className="container-mobile">
@@ -56,7 +56,6 @@ const Home: FC = () => {
                         keyboard={true}
                         modules={[Mousewheel, Keyboard]}
                         onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
-                        onSwiper={setSwiperInstance}
                     >
                         {[1, 2, 3, 4, 5].map((item, index) => (
                             <SwiperSlide key={index}>

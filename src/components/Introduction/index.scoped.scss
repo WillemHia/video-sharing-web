@@ -15,7 +15,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-bottom: 12px;
         border-bottom: 1px solid #3a3a3a;
 
         .header-choose {
@@ -30,13 +29,14 @@
                 cursor: pointer;
                 font-weight: 600;
                 position: relative;
+                padding-bottom: 12px;
             }
 
             .header-choose-item::after {
                 content: "";
                 position: absolute;
                 left: 0;
-                bottom: -16px;
+                bottom: -3px;
                 display: block;
                 width: 0;
                 height: 4px;

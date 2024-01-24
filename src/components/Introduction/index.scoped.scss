@@ -48,6 +48,7 @@
             .header-choose-active {
                 color: #dadada;
                 position: relative;
+                transition: all 0.3s ease-in-out;
             }
 
             .header-choose-active::after {

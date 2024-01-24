@@ -1,6 +1,6 @@
 import { configureStore, Action, ThunkAction } from "@reduxjs/toolkit";
-import counterReducer from "./counterSlice";
-import deviceAdjustReducer from "./deviceAdjustSlice";
+import counterReducer from "./slices/counterSlice";
+import deviceAdjustReducer from "./slices/deviceAdjustSlice";
 
 const store = configureStore({
     reducer: {

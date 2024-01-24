@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import Layout from '@/pages/Layout';
 import { useAppDispatch } from '@/stores/hooks';
-import { setIsMobile } from '@/stores/deviceAdjustSlice';
+import { setIsMobile } from '@/stores/slices/deviceAdjustSlice';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();

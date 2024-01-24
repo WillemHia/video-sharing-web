@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { VideoCameraAddOutlined } from "@ant-design/icons";
-import Button from "../Button";
+import Button from "../../../../components/Button";
 import "./index.scoped.scss";
 
 const Tabbar: FC = () => {

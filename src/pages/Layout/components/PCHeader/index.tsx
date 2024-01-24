@@ -2,7 +2,7 @@ import React, { FC, useState, useRef, useEffect } from "react";
 import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined } from "@ant-design/icons";
 import "./index.scoped.scss";
 import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH, SEARCH_HISTORY_LIST } from "@/constants";
-import Button from "../Button";
+import Button from "../../../../components/Button";
 import NavFewerIcon from "@/assets/images/navFewer.png";
 import NavSpreadIcon from "@/assets/images/navSpread.png";
 import HOTICON from "@/assets/images/hot.png";

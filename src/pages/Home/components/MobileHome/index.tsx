@@ -2,7 +2,7 @@ import React, { FC, useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { SwiperClass } from "swiper/react";
 import 'swiper/css';
-import "../index.scoped.scss";
+import "./index.scoped.scss";
 
 const MobileHome: FC = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -43,28 +43,30 @@ const MobileHome: FC = () => {
 
     return (
         <>
-            <div className="video-list" ref={mobileVideoList} style={{ width: `${moreVideoVisible ? 'calc(100% - 2.5rem)' : '100%'}` }}>
-                <Swiper
-                    spaceBetween={20}
-                    speed={800}
-                    direction="vertical"
-                    onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
-                >
-                    {[1, 2, 3, 4, 5].map((item, index) => (
-                        <SwiperSlide key={index}>
-                            <div className="video-item">{item}</div>
-                        </SwiperSlide>
-                    )
-                    )}
-                </Swiper>
-            </div>
-            <div className={`video-more ${moreVideoVisible && 'video-more-active'}`}>
-                <span className="title">TA的作品</span>
-                <ul>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
+            <div className="container-mobile">
+                <div className="video-list" ref={mobileVideoList} style={{ width: `${moreVideoVisible ? 'calc(100% - 2.5rem)' : '100%'}` }}>
+                    <Swiper
+                        spaceBetween={20}
+                        speed={800}
+                        direction="vertical"
+                        onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
+                    >
+                        {[1, 2, 3, 4, 5].map((item, index) => (
+                            <SwiperSlide key={index}>
+                                <div className="video-item">{item}</div>
+                            </SwiperSlide>
+                        )
+                        )}
+                    </Swiper>
+                </div>
+                <div className={`video-more ${moreVideoVisible && 'video-more-active'}`}>
+                    <span className="title">TA的作品</span>
+                    <ul>
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </>
     )

@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
-import Header from "@/components/Header";
-import Tabbar from "@/components/Tabbar";
-import Navigate from "@/components/Navigate";
-import PCHeader from "@/components/PCHeader";
+import Header from "./components/Header";
+import Tabbar from "./components/Tabbar";
+import Navigate from "./components/Navigate";
+import PCHeader from "./components/PCHeader";
 import Router from "../Router";
 import "./index.scoped.scss";
 import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH } from "@/constants";

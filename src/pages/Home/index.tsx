@@ -1,8 +1,8 @@
-import React, { FC} from "react";
-import PCHome from "./PCHome";
-import MobileHome from "./MobileHome";
+import React, { FC } from "react";
+import PCHome from "./components/PCHome";
+import MobileHome from "./components/MobileHome";
 import { useAppSelector } from "@/stores/hooks";
-import { selectIsMobile } from "@/stores/deviceAdjustSlice";
+import { selectIsMobile } from "@/stores/slices/deviceAdjustSlice";
 import "./index.scoped.scss";
 
 const Home: FC = () => {
@@ -11,12 +11,7 @@ const Home: FC = () => {
 
     return (
         <>
-            <div className="container-pc">
-                {!isMobile && <PCHome />}
-            </div>
-            <div className="container-mobile">
-                {isMobile && <MobileHome />}
-            </div>
+            {isMobile ? <MobileHome /> : <PCHome />}
         </>
 
     );

@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Mousewheel, Keyboard } from 'swiper/modules';
 import type { SwiperClass } from "swiper/react";
 import Introduction from "@/components/Introduction";
+import Video from "@/components/Video";
 import { IntroudctionType } from "@/enums";
 import 'swiper/css';
 import "./index.scoped.scss"
@@ -27,9 +28,9 @@ const PCHome: FC = () => {
                         onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
                         onSwiper={setSwipePCrInstance}
                     >
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <SwiperSlide key={index}>
-                                <div className="video-item" style={{ borderRadius: `${introductionVisible ? '10px 0 0 10px' : '10px'}` }}>{item}</div>
+                        {[1, 2, 3, 4, 5].map(item => (
+                            <SwiperSlide key={item}>
+                                <Video introductionVisible={introductionVisible}/>
                             </SwiperSlide>
                         )
                         )}

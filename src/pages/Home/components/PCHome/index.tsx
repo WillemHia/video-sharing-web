@@ -27,10 +27,11 @@ const PCHome: FC = () => {
                         modules={[Mousewheel, Keyboard]}
                         onSlideChange={(swiper: SwiperClass) => setActiveIndex(swiper.realIndex)}
                         onSwiper={setSwipePCrInstance}
+                        touchStartPreventDefault={false}
                     >
                         {[1, 2, 3, 4, 5].map(item => (
                             <SwiperSlide key={item}>
-                                <Video introductionVisible={introductionVisible}/>
+                                <Video introductionVisible={introductionVisible} index={item-1} activeIndex={activeIndex}/>
                             </SwiperSlide>
                         )
                         )}

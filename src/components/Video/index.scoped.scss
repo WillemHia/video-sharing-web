@@ -43,6 +43,7 @@
             top: 0;
             left: 0;
             background: #6d6d6d;
+            cursor: pointer;
             transition: all 0.3s ease-in-out;
 
             &-progress {
@@ -51,7 +52,7 @@
                 top: 0;
                 left: 0;
                 background: #999999;
-                transition: all 0.3s ease-in-out;
+                transition: color 0.3s ease-in-out;
 
                 &-bar {
                     position: absolute;
@@ -64,22 +65,34 @@
                     border-radius: 50%;
                     box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.5);
                     opacity: 0;
-                    transition: all 0.3s ease-in-out;
+                    transition: opacity 0.3s ease-in-out;
+                }
+            }
+
+            &-active {
+                height: 5px;
+                background: #a8a8a8;
+
+                .video-controls-top-progress {
+                    background: #dadada;
+                }
+
+                .video-controls-top-progress-bar {
+                    opacity: 1;
                 }
             }
 
             &:hover {
-                cursor: pointer;
                 height: 5px;
                 background: #a8a8a8;
-            }
 
-            &:hover .video-controls-top-progress {
-                background: #dadada;
-            }
+                .video-controls-top-progress {
+                    background: #dadada;
+                }
 
-            &:hover .video-controls-top-progress-bar {
-                opacity: 1;
+                .video-controls-top-progress-bar {
+                    opacity: 1;
+                }
             }
         }
 
@@ -93,6 +106,7 @@
                 font-size: 14px;
                 display: flex;
                 gap: 5px;
+                user-select: none;
             }
 
             .video-controls-icon {
@@ -107,10 +121,89 @@
             align-items: center;
             gap: 20px;
 
-            svg {
+            img {
                 cursor: pointer;
             }
 
+            .video-controls-suond {
+                position: relative;
+
+                &:hover .video-sound-progress-conatiner {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .video-sound-progress-conatiner {
+                    cursor: pointer;
+                    opacity: 0;
+                    visibility: hidden;
+                    position: absolute;
+                    width: 35px;
+                    height: 80px;
+                    top: -88px;
+                    left: 50%;
+                    border-radius: 4px;
+                    transform: translateX(-50%);
+                    background: rgba(41, 41, 41, 0.9);
+                    display: flex;
+                    justify-content: center;
+                    padding: 10px  0 5px 0;
+                    transition: all 0.3s ease-in-out;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        width: 0;
+                        height: 0;
+                        top: 100%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        border: 6px solid transparent;
+                        border-top-color: rgba(41, 41, 41, 0.9);
+                    }
+
+                    .video-sound-progress {
+                        width: 4px;
+                        height: 65px;
+                        background: #454545;
+                        position: relative;
+                        border-radius: 2px;
+                        --progrees-height: 50%;
+                        
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            width: 100%;
+                            height: var(--progrees-height);
+                            bottom: 0;
+                            left: 0;
+                            background: #ffffff;
+                            border-radius: 2px;
+                        }
+
+                        .video-sound-progress-bar {
+                            position: absolute;
+                            width: 10px;
+                            height: 10px;
+                            bottom: var(--progrees-height);
+                            left: 50%;
+                            transform: translate(-50%, 50%);
+                            background: #ffffff;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+
+            .video-controls-right-sound {
+                width: 23px;
+                height: 23px;
+            }
+
+            .video-controls-right-fullScreen {
+                width: 18px;
+                height: 18px;
+            }
         }
     }
 }

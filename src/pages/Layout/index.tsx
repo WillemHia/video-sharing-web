@@ -1,4 +1,6 @@
 import React, { FC, useState } from "react";
+import { useAppSelector } from "@/stores/hooks";
+import { selectIsVideoFullScreen } from "@/stores/slices/deviceAdjustSlice";
 import Header from "./components/Header";
 import Tabbar from "./components/Tabbar";
 import Navigate from "./components/Navigate";
@@ -9,6 +11,7 @@ import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH } from "@/constants";
 
 const Layout: FC = () => {
     const [shortNavVisible, setShortNavVisible] = useState(false);
+    const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
 
     return (
         <div className="container">
@@ -25,7 +28,7 @@ const Layout: FC = () => {
                 }}>
                 <Navigate shortNavVisible={shortNavVisible} />
             </div>
-            <div className="layout">
+            <div className={`layout ${isVideoFullScreen && 'layout-full'}`}>
                 <Router />
             </div>
             <div className="tabbar">

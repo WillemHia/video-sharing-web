@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background: #0a0a0a;
+    border-radius: 0.13333rem;
+    position: relative;
+
+    .play-icon {
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 1.6rem;
+            height: 1.6rem;
+            opacity: 0.3;
+        }
+    }
+
+    .video {
+        width: 100%;
+        height: 100%;
+    }
+}

@@ -6,7 +6,7 @@ import type { SwiperClass } from "swiper/react";
 import { useAppSelector } from "@/stores/hooks";
 import { selectIsVideoFullScreen } from "@/stores/slices/deviceAdjustSlice";
 import Introduction from "@/components/Introduction";
-import Video from "@/components/Video";
+import PCVideo from "@/components/PCVideo";
 import { IntroudctionType } from "@/enums";
 import 'swiper/css';
 import "./index.scoped.scss"
@@ -42,7 +42,7 @@ const PCHome: FC = () => {
                     >
                         {[1, 2, 3, 4, 5].map(item => (
                             <SwiperSlide key={item}>
-                                <Video introductionVisible={introductionVisible}
+                                <PCVideo introductionVisible={introductionVisible}
                                     index={item - 1}
                                     activeIndex={activeIndex}
                                     changeAllowTouchMove={setAllowTouchMove} />

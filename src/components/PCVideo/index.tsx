@@ -27,7 +27,7 @@ interface CustomFullscreenDocument extends Document {
     webkitCancelFullScreen?(): void
 }
 
-const Video: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllowTouchMove }) => {
+const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllowTouchMove }) => {
     const dispatch = useAppDispatch();
     const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -321,4 +321,4 @@ const Video: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllow
     );
 };
 
-export default Video;
+export default PCVideo;

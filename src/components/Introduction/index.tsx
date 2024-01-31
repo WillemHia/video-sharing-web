@@ -7,13 +7,14 @@ import './index.scoped.scss';
 interface Props {
     type: IntroudctionType;
     onClosed?: () => void;
+    style?: React.CSSProperties;
 }
 
-const Introduction: FC<Props> = ({ onClosed, type }) => {
+const Introduction: FC<Props> = ({ onClosed, type, style }) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <div className="container">
+        <div className="container" style={style}>
             {type === IntroudctionType.VIDEO && (
                 <header>
                     <div className="header-choose">

@@ -6,19 +6,38 @@
     background-color: #3c3c3c;
     border-radius: 10px;
     position: relative;
+    transition: all 0.3s ease-in-out;
 
     &-background {
         position: absolute;
         width: 100%;
         height: 100%;
-        border-radius: 10px;
+        border-radius: 20px;
         z-index: 0;
         overflow: hidden;
+        transition: all 0.3s ease-in-out;
 
         img {
             width: 100%;
             height: 100%;
             filter: blur(30px);
+        }
+    }
+
+    
+    .play-icon {
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 1.6rem;
+            height: 1.6rem;
+            opacity: 0.3;
         }
     }
 
@@ -213,6 +232,79 @@
                 width: 18px;
                 height: 18px;
                 user-select: none;
+            }
+        }
+    }
+
+    .video-detail {
+        position: absolute;
+        bottom: 70px;
+        left: 20px;
+        max-width: 80%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 16px;
+        color: #dadada;
+        user-select: none;
+        z-index: 100;
+        
+        .video-author span{
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
+                border-radius: 1px;
+                left: 0;
+                background: #dadada;
+                transition: all 0.3s ease-in-out;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
+        }
+
+        .video-description-label {
+            display: flex;
+            gap: 10px;
+        }
+    }
+
+    .video-interaction{
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+
+        .video-author-avater {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            filter: drop-shadow(0 0 3px rgba(30, 30, 30, 0.5));
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+
+            .attention-icon {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 50%);
             }
         }
     }

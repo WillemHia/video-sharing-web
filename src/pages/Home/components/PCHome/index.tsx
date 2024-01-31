@@ -39,23 +39,26 @@ const PCHome: FC = () => {
                         onSwiper={setSwipePCrInstance}
                         touchStartPreventDefault={false}
                         touchMoveStopPropagation={true}
+                        style={{ width: `${introductionVisible ? '70%' : '100%'}` }}
                     >
-                        {[1, 2, 3, 4, 5].map(item => (
-                            <SwiperSlide key={item}>
-                                <PCVideo introductionVisible={introductionVisible}
-                                    index={item - 1}
-                                    activeIndex={activeIndex}
-                                    changeAllowTouchMove={setAllowTouchMove} />
-                            </SwiperSlide>
-                        )
-                        )}
+                        {
+                            [1, 2, 3, 4, 5].map(item => (
+                                <SwiperSlide key={item}>
+                                    <PCVideo introductionVisible={introductionVisible}
+                                        index={item - 1}
+                                        activeIndex={activeIndex}
+                                        changeAllowTouchMove={setAllowTouchMove} />
+                                </SwiperSlide>
+                            )
+                            )
+                        }
                     </Swiper>
-                    {!introductionVisible &&
-                        <div className="video-more" onClick={() => setIntroductionVisible(true)}>
-                            <LeftOutlined />
-                        </div>
-                    }
-                    {introductionVisible && <Introduction type={IntroudctionType.VIDEO} onClosed={() => setIntroductionVisible(false)} />}
+                    <div className={`video-more-active ${introductionVisible && 'video-more'}`} onClick={() => setIntroductionVisible(true)}>
+                        <LeftOutlined />
+                    </div>
+                    <div className={`video-introudction ${introductionVisible && 'video-introudction-active'}`}>
+                        <Introduction type={IntroudctionType.VIDEO} onClosed={() => setIntroductionVisible(false)} />
+                    </div>
                 </div>
                 {!isVideoFullScreen && (
                     <div className="video-choose">
@@ -63,7 +66,7 @@ const PCHome: FC = () => {
                         <DownOutlined className={`video-choose-icon ${activeIndex === 4 && 'video-choose-icon-disabled'}`} onClick={() => swiperPCInstance!.slideNext()} />
                     </div>
                 )}
-            </div>
+            </div >
         </>
     )
 }

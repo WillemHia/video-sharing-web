@@ -11,13 +11,15 @@
         flex-grow: 1;
         position: relative;
         display: flex;
+        justify-content: flex-start;
 
         .swiper {
             height: 100%;
-            flex-grow: 1;
+            transition: all 0.3s ease-out;
+            margin-left: 0;
         }
 
-        .video-more {
+        .video-more-active {
             position: absolute;
             right: 0;
             top: 50%;
@@ -34,14 +36,36 @@
             border-right: none;
             display: flex;
             align-items: center;
-            transition: all 0.3s ease-in-out;
+            visibility: visible;
+            transition: opacity 0.3s 0.5s ease-in-out, transform 0.3s ease-in-out, border 0.3s ease-in-out;
         }
 
-        .video-more:hover {
+        .video-more-active:hover {
             transform: translateY(-50%) scale(1.1);
             border: 2px solid #a5a5a5;
             border-right: none;
         }
+
+        .video-more {
+            opacity: 0;
+            visibility: hidden;
+            transition: none;
+        }
+    }
+
+    .video-introudction {
+        position: absolute;
+        right: 0;
+        width: 30%;
+        min-width: 300px;
+        height: 100%;
+        opacity: 0;
+        transition: all 0.3s ease-out;
+    }
+
+    .video-introudction-active {
+        opacity: 1;
+        transition: all 0.3s 0.1s ease-in-out;
     }
 
     .video-choose {
@@ -52,7 +76,7 @@
         flex-direction: column;
         background-color: #333333;
         border-radius: 27px;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-out;
 
         .video-choose-icon {
             padding: 15px 0;

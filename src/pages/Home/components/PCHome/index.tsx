@@ -39,7 +39,7 @@ const PCHome: FC = () => {
                         onSwiper={setSwipePCrInstance}
                         touchStartPreventDefault={false}
                         touchMoveStopPropagation={true}
-                        style={{ width: `${introductionVisible ? '70%' : '100%'}` }}
+                        style={{ width: `${introductionVisible ? 'min(70%, calc(100% - 300px))' : '100%'}` }}
                     >
                         {
                             [1, 2, 3, 4, 5].map(item => (

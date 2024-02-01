@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { videoTimeFormat } from "@/utils/videoTimeFormat";
+import Interction from "../Interction";
 import "./index.scoped.scss";
 import PlayIcon from "@/assets/images/play.svg";
 
@@ -116,13 +117,11 @@ const MobileHome: FC = () => {
                 onClick={handleVideoPlay}
             />
             <div className="video-progress">
-                {videoTimeVisible && (
-                    <div className="video-time">
-                        <span className="current-time">{videoTimeFormat(videoRef.current?.currentTime!)}</span>
-                        <span>/</span>
-                        <span>{videoTimeFormat(videoRef.current?.duration!)}</span>
-                    </div>
-                )}
+                <div className="video-time" style={{ opacity: `${videoTimeVisible ? '1' : '0'}` }} onClick={handleVideoPlay}>
+                    <span className="current-time">{videoTimeFormat(videoRef.current?.currentTime!)}</span>
+                    <span>/</span>
+                    <span>{videoTimeFormat(videoRef.current?.duration!)}</span>
+                </div>
                 <div
                     className={`progress ${!isPlaying && 'progress-pause'} ${videoTimeVisible && 'progress-move'}`}
                     style={{ '--progress-width': `${videoProgress}%` } as React.CSSProperties}
@@ -132,6 +131,7 @@ const MobileHome: FC = () => {
                     <div className="progress-bar" />
                 </div>
             </div>
+            <Interction videoTimeVisible={videoTimeVisible} />
         </div>
     )
 }

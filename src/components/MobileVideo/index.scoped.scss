@@ -45,6 +45,7 @@
             justify-content: center;
             align-items: center;
             gap: 0.13333rem;
+            transition: all 0.3s ease-in-out;
 
             .current-time {
                 color: #dadada;

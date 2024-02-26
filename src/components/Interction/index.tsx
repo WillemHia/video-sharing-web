@@ -17,6 +17,7 @@ import LaughIcon from "@/assets/images/laugh.png";
 interface Props {
     introductionVisible?: boolean;
     videoTimeVisible?: boolean;
+    commentVisibleHandle?: () => void;
 }
 
 const InterctionIcons = [
@@ -28,10 +29,25 @@ const InterctionIcons = [
     { id: 6, icon: LaughIcon, name: 'laugh' },
 ]
 
-const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible }) => {
+let clickCount = 0;
+
+const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible, commentVisibleHandle }) => {
     const isMobile = useAppSelector(selectIsMobile);
     const [acitveIcon, setActiveIcon] = useState(0);
     const [showMoreLabel, setShowMoreLabel] = useState(false);
+    const [moreInterctionVisible, setMoreInterctionVisible] = useState(false);
+
+    const mobileInterctionClickHandle = () => {
+        clickCount++;
+        setTimeout(() => {
+            if (clickCount === 1) {
+                setActiveIcon(acitveIcon ? 0 : 1);
+            } else {
+                setMoreInterctionVisible(true);
+            }
+            clickCount = 0;
+        }, 200);
+    }
     return (
         <>
             <div className="video-interaction" style={{ right: `${isMobile ? '0.4rem' : introductionVisible ? '20px' : '50px'}` }}>
@@ -41,21 +57,29 @@ const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible }) => {
                 </div>
                 <div className="video-interction-item">
                     {acitveIcon === 0 ?
-                        (<img className="video-interction-item-icon" src={LikeIcon} alt="" onClick={() => setActiveIcon(1)} />) :
+                        (<img className="video-interction-item-icon" src={LikeIcon} alt="" onClick={isMobile ? mobileInterctionClickHandle : () => setActiveIcon(1)} onMouseEnter={isMobile ? () => { } : () => { setMoreInterctionVisible(true) }} onMouseLeave={isMobile ? () => { } : () => { setMoreInterctionVisible(false) }} />) :
                         InterctionIcons.filter(item => item.id === acitveIcon).map(item => (
-                            <img className={`video-interction-item-icon ${item.name}`} src={item.icon} alt="" key={item.id} onClick={() => setActiveIcon(0)} />
+                            <img className={`video-interction-item-icon ${item.name}`} src={item.icon} alt="" key={item.id} onClick={isMobile ? mobileInterctionClickHandle : () => setActiveIcon(0)} onMouseEnter={isMobile ? () => { } : () => { setMoreInterctionVisible(true) }} onMouseLeave={isMobile ? () => { } : () => { setMoreInterctionVisible(false) }} />
                         ))}
                     <span className="video-interction-item-text ">
                         1.5万
                     </span>
-                    <div className="more-interction">
+                    <div className={`more-interction ${moreInterctionVisible && 'more-interction-visible'}`} onMouseEnter={isMobile ? () => { } : () => { setMoreInterctionVisible(true) }} onMouseLeave={isMobile ? () => { } : () => { setMoreInterctionVisible(false) }}>
                         {InterctionIcons.filter(item => item.id !== acitveIcon).map(item => (
-                            <img className={`video-interction-item-icon ${item.name}`} src={item.icon} alt="" key={item.id} onClick={() => setActiveIcon(item.id)} />
+                            <img
+                                className={`video-interction-item-icon ${item.name}`}
+                                src={item.icon}
+                                alt=""
+                                key={item.id}
+                                onClick={() => {
+                                    setActiveIcon(item.id)
+                                    setMoreInterctionVisible(false)
+                                }} />
                         ))}
                     </div>
                 </div>
                 <div className="video-interction-item">
-                    <img className="video-interction-item-icon comment" src={CommnetIcon} alt="" />
+                    <img className="video-interction-item-icon comment" src={CommnetIcon} alt="" onClick={commentVisibleHandle} />
                     <span className="video-interction-item-text ">
                         1892
                     </span>

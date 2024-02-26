@@ -15,7 +15,8 @@ interface Props {
     introductionVisible: boolean,
     index: number,
     activeIndex: number,
-    changeAllowTouchMove?: (allowTouchMove: boolean) => void
+    changeAllowTouchMove?: (allowTouchMove: boolean) => void,
+    commentVisibleHandle?: () => void,
 }
 interface CustomFullscreenElement extends Element {
     msRequestFullscreen?(): void,
@@ -28,7 +29,7 @@ interface CustomFullscreenDocument extends Document {
     webkitCancelFullScreen?(): void
 }
 
-const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllowTouchMove }) => {
+const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllowTouchMove, commentVisibleHandle }) => {
     const dispatch = useAppDispatch();
     const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -57,7 +58,6 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
                 setIsPlaying(false);
             });
             current.addEventListener('loadedmetadata', () => {
-                setDuration(videoTimeFormat(current.duration));
                 current.volume = 0.5;
             });
             current.addEventListener('volumechange', () => {
@@ -75,6 +75,13 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
         };
     }, []);
 
+    useEffect(()=>{
+        const { current } = videoRef;
+        if(current){
+            setDuration(videoTimeFormat(isNaN(current.duration) ? 0 : current.duration))
+        }
+    },[videoRef])
+
     useEffect(() => {
         const { current } = videoRef;
         if (current) {
@@ -88,6 +95,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
 
     useEffect(() => {
         const handleProgressKeyDown = (e: KeyboardEvent) => {
+            if(e.target !== document.body) return
             if (activeIndex !== index) return;
             const { current } = videoRef;
             if (current) {
@@ -286,7 +294,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
                     ref={videoRef}
                     onClick={handleVideoState}
                 />
-                <Interction introductionVisible={introductionVisible} />
+                <Interction introductionVisible={introductionVisible} commentVisibleHandle={commentVisibleHandle} />
                 <div className="video-controls" style={{ borderRadius: `${introductionVisible ? '0 0 0 20px' : '0 0 20px 20px'}` }}>
                     <div className={`video-controls-top ${progressVisible && 'video-controls-top-active'}`}
                         onMouseDown={handleProgressDown}

@@ -17,6 +17,17 @@ const PCHome: FC = () => {
     const [swiperPCInstance, setSwipePCrInstance] = useState<SwiperClass>();
     const [introductionVisible, setIntroductionVisible] = useState(false);
     const [allowTouchMove, setAllowTouchMove] = useState(true);
+    const [index, setIndex] = useState(0);
+
+    const introductionVisibleHandle = () => {
+        setIntroductionVisible(true);
+        setIndex(0)
+    }
+
+    const commentVisibleHandle = () => {
+        setIntroductionVisible(true);
+        setIndex(1)
+    }
 
     useEffect(() => {
         if (swiperPCInstance) {
@@ -47,17 +58,19 @@ const PCHome: FC = () => {
                                     <PCVideo introductionVisible={introductionVisible}
                                         index={item - 1}
                                         activeIndex={activeIndex}
-                                        changeAllowTouchMove={setAllowTouchMove} />
+                                        changeAllowTouchMove={setAllowTouchMove}
+                                        commentVisibleHandle={commentVisibleHandle}
+                                    />
                                 </SwiperSlide>
                             )
                             )
                         }
                     </Swiper>
-                    <div className={`video-more-active ${introductionVisible && 'video-more'}`} onClick={() => setIntroductionVisible(true)}>
+                    <div className={`video-more-active ${introductionVisible && 'video-more'}`} onClick={introductionVisibleHandle}>
                         <LeftOutlined />
                     </div>
                     <div className={`video-introudction ${introductionVisible && 'video-introudction-active'}`}>
-                        <Introduction type={IntroudctionType.VIDEO} onClosed={() => setIntroductionVisible(false)} />
+                        <Introduction type={IntroudctionType.VIDEO} onClosed={() => setIntroductionVisible(false)} index={index} />
                     </div>
                 </div>
                 {!isVideoFullScreen && (

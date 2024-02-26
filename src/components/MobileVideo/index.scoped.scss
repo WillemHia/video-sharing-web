@@ -30,8 +30,8 @@
     .video-progress {
         position: absolute;
         bottom: 0;
-        left: 0;
-        width: 100%;
+        left: 0.26666rem;
+        width: calc(100% - 0.53333rem);
         display: flex;
         flex-direction: column;
         gap: 0.5rem;

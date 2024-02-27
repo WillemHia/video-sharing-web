@@ -4,7 +4,12 @@ import Interction from "../Interction";
 import "./index.scoped.scss";
 import PlayIcon from "@/assets/images/play.svg";
 
-const MobileHome: FC = () => {
+interface Props {
+    changeCommentVisible: () => void;
+    commentVisible: boolean;
+}
+
+const MobileVideo: FC<Props> = ({ changeCommentVisible, commentVisible }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoProgressRef = useRef<HTMLDivElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -103,8 +108,8 @@ const MobileHome: FC = () => {
     }, []);
 
     return (
-        <div className="container">
-            {!isPlaying && (
+        <div className="container" style={{ height: `${commentVisible ? '40vh' : 'calc(100% - 0.05rem)'}` }}>
+            {!isPlaying && !commentVisible && (
                 <div className="play-icon" onClick={handleVideoPlay}>
                     <img src={PlayIcon} alt="play" />
                 </div>
@@ -114,9 +119,9 @@ const MobileHome: FC = () => {
                 src="/test.mp4"
                 poster="https://pic.616pic.com/bg_w1180/00/09/53/W757CqGnAG.jpg!/fh/300"
                 ref={videoRef}
-                onClick={handleVideoPlay}
+                onClick={commentVisible ? changeCommentVisible : handleVideoPlay}
             />
-            <div className="video-progress">
+            <div className={`video-progress ${commentVisible && 'video-progress-hidden'}`}>
                 <div className="video-time" style={{ opacity: `${videoTimeVisible ? '1' : '0'}` }} onClick={handleVideoPlay}>
                     <span className="current-time">{videoTimeFormat(videoRef.current?.currentTime!)}</span>
                     <span>/</span>
@@ -131,9 +136,11 @@ const MobileHome: FC = () => {
                     <div className="progress-bar" />
                 </div>
             </div>
-            <Interction videoTimeVisible={videoTimeVisible} />
+            <div className={`interction-container ${commentVisible && 'interction-container-hidden'}`}>
+                <Interction videoTimeVisible={videoTimeVisible} changeCommentVisible={changeCommentVisible} />
+            </div>
         </div>
     )
 }
 
-export default MobileHome;
+export default MobileVideo;

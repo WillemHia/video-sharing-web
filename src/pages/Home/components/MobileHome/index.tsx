@@ -4,11 +4,13 @@ import type { SwiperClass } from "swiper/react";
 import MobileVideo from "@/components/MobileVideo";
 import 'swiper/css';
 import "./index.scoped.scss";
+import MobileComment from "@/components/MobileComment";
 
 const MobileHome: FC = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const mobileVideoList = useRef<HTMLDivElement>(null);
     const [moreVideoVisible, setMoreVideoVisible] = useState(false);
+    const [commentVisible, setCommentVisible] = useState(false)
 
     useEffect(() => {
         const { current } = mobileVideoList;
@@ -53,7 +55,7 @@ const MobileHome: FC = () => {
                     >
                         {[1, 2, 3, 4, 5].map((item, index) => (
                             <SwiperSlide key={index}>
-                                <MobileVideo />
+                                <MobileVideo changeCommentVisible={() => setCommentVisible(!commentVisible)} commentVisible={commentVisible} />
                             </SwiperSlide>
                         )
                         )}
@@ -68,6 +70,7 @@ const MobileHome: FC = () => {
                     </ul>
                 </div>
             </div>
+            <MobileComment style={{ transform: `${commentVisible ? 'translateY(0)' : 'translateY(100%)'}` }} changeCommentVisible={() => setCommentVisible(!commentVisible)}/>
         </>
     )
 }

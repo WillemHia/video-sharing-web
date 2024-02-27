@@ -1,9 +1,9 @@
 .container {
     width: 100%;
-    height: calc(100% - 00.05rem);
     background: #0a0a0a;
     border-radius: 0.13333rem;
     position: relative;
+    transition: all 0.3s ease;
 
     .play-icon {
         position: absolute;
@@ -37,6 +37,9 @@
         gap: 0.5rem;
         margin-bottom: 0.05rem;
         z-index: 100;
+        visibility: visible;
+        opacity: 1;
+        transition: all  0.1s 0.3s ease-in-out;
 
         .video-time {
             font-size: 0.42666rem;
@@ -114,5 +117,23 @@
                 border-radius: 0.08rem;
             }
         }
+    }
+
+    .video-progress-hidden {
+        visibility: hidden;
+        opacity: 0;
+        transition: none;
+    }
+
+    .interction-container {
+        visibility: visible;
+        opacity: 1;
+        transition: all 0.1s 0.3s ease-in-out;
+    }
+
+    .interction-container-hidden {
+        visibility: hidden;
+        opacity: 0;
+        transition: none;
     }
 }

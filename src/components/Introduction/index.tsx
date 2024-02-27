@@ -4,6 +4,8 @@ import { IntroudctionType } from "@/enums";
 import Button from "../Button";
 import './index.scoped.scss';
 import CommentIcon from "@/assets/images/comment.svg";
+import LikeIcon from "@/assets/images/like.svg";
+import LikeActive from "@/assets/images/likeActive.svg";
 
 interface Props {
     type: IntroudctionType;
@@ -16,6 +18,7 @@ const Introduction: FC<Props> = ({ onClosed, type, style, index }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [showMoreComment, setShowMoreComment] = useState(false);
     const [comment, setComment] = useState('');
+    const [likeActive, setLikeActive] = useState(false);
 
     useEffect(() => {
         setActiveIndex(index || 0);
@@ -78,9 +81,12 @@ const Introduction: FC<Props> = ({ onClosed, type, style, index }) => {
                             <div className="comment-item-detail">
                                 <div className="comment-item-name">小明爱敲代码</div>
                                 <div className="comment-item-content">这个视频真的很棒，我很喜欢</div>
+                                <div className="comment-item-time">2021-01-01 12:00</div>
                                 <div className="comment-footer">
-                                    <div className="comment-item-time">2021-01-01 12:00</div>
                                     <div className="comment-item-back"><img src={CommentIcon} alt="" />回复</div>
+                                    {likeActive ?
+                                        <div className="comment-item-liked"><img src={LikeActive} alt="" onClick={() => setLikeActive(false)} />12</div> :
+                                        <div className="comment-item-like"><img src={LikeIcon} alt="" onClick={() => setLikeActive(true)} />12</div>}
                                 </div>
                             </div>
                         </div>
@@ -94,9 +100,12 @@ const Introduction: FC<Props> = ({ onClosed, type, style, index }) => {
                                         <span className="comment-item-name comment-item-name-reply">小红爱敲代码</span>
                                     </div>
                                     <div className="comment-item-content">这个视频真的很棒，我很喜欢</div>
+                                    <div className="comment-item-time">2021-01-01 12:00</div>
                                     <div className="comment-footer">
-                                        <div className="comment-item-time">2021-01-01 12:00</div>
                                         <div className="comment-item-back"><img src={CommentIcon} alt="" />回复</div>
+                                        {likeActive ?
+                                        <div className="comment-item-liked"><img src={LikeActive} alt="" onClick={() => setLikeActive(false)} />12</div> :
+                                        <div className="comment-item-like"><img src={LikeIcon} alt="" onClick={() => setLikeActive(true)} />12</div>}
                                     </div>
                                 </div>
                             </div>)}

@@ -53,6 +53,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
                 const { currentTime, duration } = current;
                 setCurrentTime(videoTimeFormat(currentTime));
                 setProgress(currentTime / duration * 100);
+                setDuration(videoTimeFormat(duration));
             });
             current.addEventListener('ended', () => {
                 setIsPlaying(false);

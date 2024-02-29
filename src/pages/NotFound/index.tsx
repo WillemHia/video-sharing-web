@@ -10,7 +10,7 @@ const NotFound: FC = () => {
         <div className="container">
             <img src={NOTFOUNDPNG} alt="" />
             <div className="text">页面迷路啦~~~</div>
-            <div className="button" onClick={() => navigate('/home', { replace: true })}>
+            <div className="button" onClick={() => navigate('/', { replace: true })}>
                 <Button>返回首页</Button>
             </div>
         </div>

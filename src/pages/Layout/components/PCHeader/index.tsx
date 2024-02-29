@@ -1,4 +1,5 @@
 import React, { FC, useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined } from "@ant-design/icons";
 import "./index.scoped.scss";
 import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH, SEARCH_HISTORY_LIST } from "@/constants";
@@ -15,6 +16,7 @@ interface Props {
 
 const userInfo = true;
 const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
+    const navigate = useNavigate();
     const [historyList, setHistoryList] = useState(SEARCH_HISTORY_LIST.slice(0, 5));
     const [showMore, setShowMore] = useState(false);
     const [showSearchBoard, setShowSearchBoard] = useState(false);
@@ -107,7 +109,7 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
 
                             <div className="user-menu">
                                 <ul>
-                                    <li>个人中心</li>
+                                    <li onClick={()=>navigate('user-info')}>个人中心</li>
                                     <li>退出登录</li>
                                 </ul>
                             </div>

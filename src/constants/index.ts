@@ -30,6 +30,10 @@ export const NAV_LIST = [
         name: '广场',
         path: '/shop',
     },
+    {
+        name: '我的',
+        path: '/user-info',
+    }
 ];
 
 export const SEARCH_HISTORY_LIST = [

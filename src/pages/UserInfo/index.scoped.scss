@@ -1,0 +1,251 @@
+.container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-left: 40px;
+    padding-right: 60px;
+
+    .header {
+        width: 100%;
+        padding: 20px 0 30px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        .backgroud {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            right: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .header-body {
+            display: flex;
+            gap: 10px;
+
+            .avater {
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+            }
+
+            .info-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+                font-size: 16px;
+                color: #dadada;
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 600;
+                }
+
+                .follow {
+                    display: flex;
+                    gap: 15px;
+                    align-items: center;
+                    font-size: 15px;
+                    color: #6e6e6e;
+
+                    .follow-item {
+                        display: flex;
+                        gap: 8px;
+                        align-items: center;
+                        cursor: pointer;
+
+                        .follow-item-count {
+                            color: #dadada;
+                        }
+                    }
+
+                    .follow-item-split {
+                        color: #5b5b5b;
+                        opacity: 0.5;
+                        user-select: none;
+                    }
+                }
+
+                .info {
+                    display: flex;
+                    gap: 15px;
+                    align-items: center;
+                    font-size: 13px;
+                    color: #6e6e6e;
+                }
+
+                .desc {
+                    font-size: 13px;
+                    color: #dadada;
+                }
+            }
+        }
+
+        .header-options {
+            align-self: flex-end;
+        }
+    }
+
+    .body {
+        border-top: 1px solid rgba(136, 136, 136, 0.2);
+
+        .body-choose {
+            width: 100%;
+            display: flex;
+            gap: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #dadada;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            background-color: #242424;
+
+            .choose-item {
+                color: #5c5c5c;
+                cursor: pointer;
+
+                &-active {
+                    color: #dadada;
+                }
+            }
+        }
+
+        .body-content {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+
+            .content-item {
+                background-color: #6e6e6e;
+                border-radius: 10px;
+                width: calc((100% - 75px) / 6);
+                aspect-ratio: 3/4;
+            }
+
+            @media screen and (max-width: 900px) {
+                .content-item {
+                    width: calc((100% - 30px) / 3);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        height: calc(100vh - 1.6rem);
+        padding: 0;
+
+        .mobile-header {
+            width: 100%;
+            height: 30vh;
+            display: flex;
+            position: relative;
+
+            .background {
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                right: 0;
+                z-index: -1;
+            }
+
+            .header-body {
+                align-self: flex-end;
+                flex-shrink: 0;
+                display: flex;
+                gap: 0.4rem;
+                padding: 0.6rem;
+
+                .avater {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 50%;
+                    background-color: #242424;
+                    box-shadow: 0 0 0 0.05rem #ffffff;
+                }
+
+                .name-container {
+                    font-size: 0.42666rem;
+                    color: #dadada;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                    justify-content: center;
+
+                    .name {
+                        font-weight: 600;
+                    }
+
+                    .id {
+                        font-size: 0.37333rem;
+                        color: #ababab;
+                    }
+                }
+            }
+        }
+
+        .body {
+            position: relative;
+            bottom: 0.3rem;
+            background-color: #000000;
+            border-radius: 0.3rem;
+            padding: 0.5233rem 0;
+
+            .info-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.26666rem;
+                padding: 0 0.52333rem 0.26666rem 0.52333rem;
+
+                .follow {
+                    display: flex;
+                    color: #dadada;
+                    font-size: 0.37333rem;
+                    gap: 0.7rem;
+
+                    .follow-item {
+                        .follow-item-count {
+                            color: #dadada;
+                            font-size: 0.45rem;
+                            font-weight: 600;
+                        }
+
+                        .follow-item-text {
+                            color: #5b5b5b;
+                            line-height: 1;
+                            margin-left: 0.05rem;
+                        }
+                    }
+                }
+
+                .desc {
+                    font-size: 0.35rem;
+                    color: #dadada;
+                }
+            }
+
+            .body-content {
+                gap: 0.07rem;
+
+                .content-item {
+                    width: calc((100% - 0.14rem) / 3);
+                    aspect-ratio: 3/4;
+                    border-radius: 0;
+                }
+            }
+
+            .body-choose {
+                background-color: #000000;
+                padding: 0.4rem 0.52333rem;
+            }
+        }
+    }
+}

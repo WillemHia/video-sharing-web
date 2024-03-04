@@ -203,7 +203,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0.26666rem;
-                padding: 0 0.52333rem 0.26666rem 0.52333rem;
+                padding: 0 0.52333rem;
 
                 .follow {
                     display: flex;
@@ -229,6 +229,8 @@
                 .desc {
                     font-size: 0.35rem;
                     color: #dadada;
+                    display: flex;
+                    gap: 0.26666rem;
                 }
             }
 
@@ -244,7 +246,7 @@
 
             .body-choose {
                 background-color: #000000;
-                padding: 0.4rem 0.52333rem;
+                padding: 0.52333rem;
             }
         }
     }

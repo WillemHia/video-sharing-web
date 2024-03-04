@@ -1,12 +1,13 @@
 import React, { FC, useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined } from "@ant-design/icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined, CloseOutlined } from "@ant-design/icons";
 import "./index.scoped.scss";
 import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH, SEARCH_HISTORY_LIST } from "@/constants";
 import Button from "../../../../components/Button";
 import NavFewerIcon from "@/assets/images/navFewer.png";
 import NavSpreadIcon from "@/assets/images/navSpread.png";
 import HOTICON from "@/assets/images/hot.png";
+import Mark from "@/components/Mark";
 
 
 interface Props {
@@ -14,13 +15,16 @@ interface Props {
     changeNavLen: (visible: boolean) => void;
 }
 
-const userInfo = true;
+const userInfo = false;
 const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
     const navigate = useNavigate();
+    const [params] = useSearchParams();
     const [historyList, setHistoryList] = useState(SEARCH_HISTORY_LIST.slice(0, 5));
     const [showMore, setShowMore] = useState(false);
     const [showSearchBoard, setShowSearchBoard] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
+    const [loginModalVisible, setLoginModalVisible] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside);
@@ -28,6 +32,10 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        setLoginModalVisible(params.get('login') === 'true');
+    }, [params]);
 
     const handleClickOutside = (e: MouseEvent) => {
         if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -109,7 +117,7 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
 
                             <div className="user-menu">
                                 <ul>
-                                    <li onClick={()=>navigate('user-info')}>个人中心</li>
+                                    <li onClick={() => navigate('user-info')}>个人中心</li>
                                     <li>退出登录</li>
                                 </ul>
                             </div>
@@ -118,9 +126,40 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
                 )
                 : (
                     <div className="login">
-                        <Button>登录</Button>
+                        <Button onClick={() => setLoginModalVisible(true)}>登录</Button>
                     </div>
                 )
+            }
+            {loginModalVisible &&
+                <Mark onClose={() => setLoginModalVisible(false)}>
+                    <div className="login-container" onClick={(e) => e.stopPropagation()}>
+                        <header className="header">
+                            <span className="title">{isRegister ? '注册' : '登录'}</span>
+                            <CloseOutlined className="close" onClick={() => setLoginModalVisible(false)} />
+                        </header>
+                        <div className="form-item">
+                            <span className="label">账号</span>
+                            <input type="text" className="input" placeholder="请输入手机号或邮箱" />
+                        </div>
+                        <div className="form-item">
+                            <span className="label">密码</span>
+                            <input type="password" className="input" placeholder="请输入密码" />
+                        </div>
+                        {isRegister &&
+                            <div className="form-item">
+                                <span className="label">确认密码</span>
+                                <input type="password" className="input" placeholder="请再次输入密码" />
+                            </div>}
+                        <div className="form-item">
+                            <span className="label"></span>
+                            <div className="button-group">
+                                {!isRegister && <Button>登录</Button>}
+                                {isRegister && <Button onClick={() => setIsRegister(false)}>返回登录</Button>}
+                                <Button onClick={() => setIsRegister(true)}>注册</Button>
+                            </div>
+                        </div>
+                    </div>
+                </Mark>
             }
         </div>
     )

@@ -1,0 +1,178 @@
+.container {
+    width: 100%;
+
+    .nav-back {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1rem;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+        z-index: 2;
+
+        .icon {
+            font-size: 0.4rem;
+            color: #dadada;
+        }
+    }
+
+    .header {
+        width: 100%;
+        height: 25vh;
+        display: flex;
+        position: relative;
+
+        .background {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            right: 0;
+            z-index: -1;
+        }
+
+        .header-body {
+            align-self: flex-end;
+            flex-shrink: 0;
+            display: flex;
+            gap: 0.4rem;
+            padding: 0 0.6rem;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            margin-bottom: -1rem;
+
+            .avater {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background-color: #242424;
+            }
+
+            .avater-mark {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, 0.4);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #dadada;
+                flex-direction: column;
+                gap: 0.2rem;
+                font-size: 0.37333rem;
+
+                .icon {
+                    font-size: 0.6rem;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+    .body {
+        width: 100%;
+        height: calc(75vh + 0.3rem);
+        position: absolute;
+        top: calc(25vh - 0.3rem);
+        background-color: #000000;
+        border-radius: 0.2rem;
+        padding: 1.8rem 0.8rem 0.52333rem 0.8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.52333rem;
+
+        .body-item {
+            display: flex;
+            position: relative;
+            font-size: 0.37333rem;
+
+            .label {
+                color: #dadada;
+                font-weight: 600;
+                width: 20%;
+                display: flex;
+                align-items: center;
+                height: 1rem;
+            }
+
+            input {
+                width: 80%;
+                height: 1rem;
+                background-color: #242424;
+                border: none;
+                border-radius: 0.2rem;
+                padding: 0.3rem 0.5rem;
+                color: #dadadd;
+                font-size: 0.37333rem;
+                outline: none;
+            }
+
+            .icon {
+                position: absolute;
+                right: 0.26666rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #909090;
+            }
+
+            textarea {
+                width: 80%;
+                height: 2rem;
+                background-color: #242424;
+                border: none;
+                border-radius: 0.2rem;
+                padding: 0.3rem 0.5rem;
+                color: #dadada;
+                font-size: 0.37333rem;
+                outline: none;
+                resize: none;
+            }
+        }
+    }
+
+    .mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+
+        .sex-select {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            border-radius: 0.3rem 0.3rem 0 0;
+            background-color: #242424;
+            font-size: 0.37333rem;
+            color: #dadada;
+            display: flex;
+            gap: 0.2rem;
+            flex-direction: column;
+            padding: 0.5rem 0;
+
+            .title {
+                font-weight: 600;
+                padding: 0 0.8rem;
+                padding-bottom: 0.3rem;
+            }
+
+            .sex-option {
+                padding: 0.3rem 0.8rem;
+                cursor: pointer;
+
+                &-selected {
+                    background-color: #363535;
+                }
+            }
+        }
+    }
+}

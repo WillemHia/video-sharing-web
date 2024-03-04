@@ -10,7 +10,7 @@ export interface Routes extends NonIndexRouteObject {
         mobileHeaderHidden?: boolean;
     },
     children?: Routes[],
-    redirect?: string;
+    redirect?: string,
 }
 
 const routes: Routes[] = [
@@ -23,6 +23,30 @@ const routes: Routes[] = [
         Component: lazy(() => import('@/pages/UserInfo')),
         meta: {
             // auth: true,
+            mobileHeaderHidden: true,
+        },
+    },
+    {
+        path: '/user-info/edit',
+        Component: lazy(() => import('@/pages/UserInfoEdit')),
+        meta: {
+            headerHidden: true,
+            tabbarHidden: true,
+            navigateHidden: true,
+            mobileHeaderHidden: true,
+        },
+    },
+    {
+        path: "/login",
+        redirect: "/?login=true",
+    },
+    {
+        path: "/mobile-login",
+        Component: lazy(() => import('@/pages/MobileLogin')),
+        meta: {
+            headerHidden: true,
+            tabbarHidden: true,
+            navigateHidden: true,
             mobileHeaderHidden: true,
         },
     },

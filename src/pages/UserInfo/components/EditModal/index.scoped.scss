@@ -29,11 +29,36 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
 
         .avater {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
+        }
+
+        .avater-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255,255,255,0.65);
+            flex-direction: column;
+            gap: 10px;
+            font-size: 16px;
+            cursor: pointer;
+
+            .icon {
+                font-size:30px;
+                opacity: 0.6;
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { matchRoutes, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/stores/hooks";
-import { selectIsVideoFullScreen } from "@/stores/slices/deviceAdjustSlice";
+import { selectIsVideoFullScreen, selectIsLayoutRouteTop } from "@/stores/slices/deviceAdjustSlice";
 import Header from "./components/Header";
 import Tabbar from "./components/Tabbar";
 import Navigate from "./components/Navigate";
@@ -14,6 +14,7 @@ import routes from "../Router/router";
 const Layout: FC = () => {
     const [shortNavVisible, setShortNavVisible] = useState(false);
     const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
+    const isLayoutRouteTop = useAppSelector(selectIsLayoutRouteTop);
     const location = useLocation();
     const meta = matchRoutes(routes, location)![0].route.meta;
 
@@ -34,7 +35,7 @@ const Layout: FC = () => {
                     <Navigate shortNavVisible={shortNavVisible} />
                 </div>
             )}
-            <div className={`layout ${isVideoFullScreen && 'layout-full'}`}>
+            <div className={`layout ${isVideoFullScreen && 'layout-full'}`} style={{ zIndex: `${isLayoutRouteTop ? '3' : '0'}` }}>
                 <Router />
             </div>
             {!meta?.headerHidden && (

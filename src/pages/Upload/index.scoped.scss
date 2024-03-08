@@ -43,7 +43,7 @@
                 line-height: 0.9rem;
                 flex-shrink: 0;
 
-                .label-botton{
+                .label-botton {
                     border-radius: 0.13333rem;
                     width: 100%;
                     height: 100%;
@@ -101,6 +101,7 @@
                 bottom: 0;
                 width: 100%;
                 text-align: center;
+                cursor: pointer;
                 padding: 0.15rem 0;
                 color: rgba(255, 255, 255, 0.7);
                 background-color: rgba(0, 0, 0, 0.4);
@@ -108,8 +109,82 @@
         }
     }
 
-    .upload-botton{
+    .upload-botton {
         width: 100%;
         padding: 0.5rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        padding-top: 50px;
+        font-size: 14px;
+
+        .nav-back {
+            display: none;
+        }
+
+        .upload-info {
+            gap: 20px;
+            padding: 0 20px;
+            height: 200px;
+
+            .upload-detail {
+                gap: 20px;
+
+                .upload-introduction {
+                    background-color: #191919;
+                }
+
+                .upload-label {
+                    width: 100%;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    position: relative;
+
+                    .label-botton {
+                        width: 80px;
+                        height: 36px;
+                        line-height: 36px;
+                        cursor: pointer;
+                        border-radius: 8px;
+
+                        &:hover {
+                            background-color: #3d3d3d;
+                        }
+                    }
+
+                    ul {
+                        position: absolute;
+                        width: 100%;
+                        top: 100%;
+                        list-style: none;
+                        background-color: #191919;
+                        margin-top: 10px;
+                        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+
+                        li {
+                            text-align: start;
+                            padding: 5px 20px;
+                            cursor: pointer;
+
+                            &:last-child {
+                                border-radius: 0 0 8px 8px;
+                            }
+
+                            &:first-child {
+                                border-radius: 8px 8px 0 0;
+                            }
+
+                            &:hover {
+                                background-color: #383838;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

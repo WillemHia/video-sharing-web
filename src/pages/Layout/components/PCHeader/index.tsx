@@ -15,7 +15,7 @@ interface Props {
     changeNavLen: (visible: boolean) => void;
 }
 
-const userInfo = false;
+const userInfo = true;
 const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
     const navigate = useNavigate();
     const [params] = useSearchParams();

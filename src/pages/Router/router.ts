@@ -51,6 +51,14 @@ const routes: Routes[] = [
         },
     },
     {
+        path: "/upload",
+        Component: lazy(() => import('@/pages/Upload')),
+        meta: {
+            tabbarHidden: true,
+            mobileHeaderHidden: true,
+        },
+    },
+    {
         path: "*",
         Component: lazy(() => import('@/pages/NotFound')),
         meta: {

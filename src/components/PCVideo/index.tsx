@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { videoTimeFormat } from "@/utils/videoTimeFormat";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { setIsVideoFullScreen, selectIsVideoFullScreen } from "@/stores/slices/deviceAdjustSlice";
+import { setIsVideoFullScreen, selectIsVideoFullScreen, setIsLayoutRouteTop } from "@/stores/slices/deviceAdjustSlice";
 import Interction from "../Interction";
 import "./index.scoped.scss";
 import SoundIcon from "@/assets/images/sound.svg";
@@ -76,12 +76,12 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
         };
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         const { current } = videoRef;
-        if(current){
+        if (current) {
             setDuration(videoTimeFormat(isNaN(current.duration) ? 0 : current.duration))
         }
-    },[videoRef])
+    }, [videoRef])
 
     useEffect(() => {
         const { current } = videoRef;
@@ -96,7 +96,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
 
     useEffect(() => {
         const handleProgressKeyDown = (e: KeyboardEvent) => {
-            if(e.target !== document.body) return
+            if (e.target !== document.body) return
             if (activeIndex !== index) return;
             const { current } = videoRef;
             if (current) {
@@ -249,7 +249,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
     }
 
     const handleFullScreen = () => {
-        console.log('handleFullScreen')
+        dispatch(setIsLayoutRouteTop(true))
         let ele = document.documentElement as CustomFullscreenElement
         if (ele.requestFullscreen) {
             ele.requestFullscreen()
@@ -264,6 +264,7 @@ const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAll
     }
 
     const handleExitFullScreen = () => {
+        dispatch(setIsLayoutRouteTop(false))
         let ele = document as CustomFullscreenDocument
         if (ele.exitFullscreen) {
             ele.exitFullscreen()

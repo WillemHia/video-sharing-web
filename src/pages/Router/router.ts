@@ -19,10 +19,10 @@ const routes: Routes[] = [
         Component: lazy(() => import('@/pages/Home')),
     },
     {
-        path: "/user-info",
+        path: "/user-info/:id",
         Component: lazy(() => import('@/pages/UserInfo')),
         meta: {
-            // auth: true,
+            auth: true,
             mobileHeaderHidden: true,
         },
     },
@@ -30,6 +30,7 @@ const routes: Routes[] = [
         path: '/user-info/edit',
         Component: lazy(() => import('@/pages/UserInfoEdit')),
         meta: {
+            auth: true,
             headerHidden: true,
             tabbarHidden: true,
             navigateHidden: true,
@@ -54,6 +55,7 @@ const routes: Routes[] = [
         path: "/upload",
         Component: lazy(() => import('@/pages/Upload')),
         meta: {
+            auth: true,
             tabbarHidden: true,
             mobileHeaderHidden: true,
         },

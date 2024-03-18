@@ -241,15 +241,20 @@
         }
 
         .user-name {
-            color: #dadada;
+            color: #ababab;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease-in-out;
+            min-width: 50px;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .down-icon {
             font-size: 14px;
-            color: #dadada;
+            color: #ababab;
             transition: all 0.3s ease-in-out;
         }
 
@@ -301,6 +306,8 @@
         .down-icon {
             color: #fff;
         }
+
+        
 
         .user-menu {
             transform: translateY(0);

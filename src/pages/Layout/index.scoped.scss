@@ -20,6 +20,7 @@
         // background-color: #242424;
         transition: all 0.3s 0.2s ease-in-out;
         z-index: 1;
+        flex-shrink: 0;
     }
 
     .layout {

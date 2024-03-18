@@ -78,6 +78,27 @@
                     color: #6e6e6e;
                 }
 
+                .detail {
+                    display: flex;
+                    gap: 10px;
+                    font-size: 13px;
+                    color: #dadada;
+
+                    .detail-item {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                        background-color: rgba(88, 88, 88, 0.2);
+                        padding: 5px 10px;
+                        border-radius: 5px;
+
+                        img {
+                            width: 13px;
+                            height: 13px;
+                        }
+                    }
+                }
+
                 .desc {
                     font-size: 13px;
                     color: #dadada;
@@ -111,6 +132,15 @@
 
                 &-active {
                     color: #dadada;
+
+                    &::after {
+                        content: '';
+                        display: block;
+                        width: 100%;
+                        height: 2px;
+                        background-color: #dadada;
+                        margin-top: 5px;
+                    }
                 }
             }
         }
@@ -126,6 +156,62 @@
                 border-radius: 10px;
                 width: calc((100% - 75px) / 6);
                 aspect-ratio: 3/4;
+                overflow: hidden;
+                cursor: pointer;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: end;
+
+                .like-count {
+                    z-index: 2;
+                    font-size: 16px;
+                    color: #ffffff;
+                    font-weight: 600;
+                    padding: 5px 10px;
+                    display: flex;
+                    align-items: center;
+                    text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+
+                    img {
+                        width: 16px;
+                        height: 16px;
+                        margin-right: 5px;
+                    }
+                }
+
+                .info {
+                    width: 100%;
+                    z-index: 2;
+                    font-size: 13px;
+                    color: #dadada;
+                    height: 40px;
+                    padding: 3px 10px;
+                    line-height: 18px;
+                    font-weight: 600;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    //两行省略
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                }
+
+                &:hover {
+                    .poster {
+                        transform: scale(1.2);
+                    }
+                }
+
+                .poster {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    transition: all 0.3s ease-in-out;
+                }
             }
 
             @media screen and (max-width: 900px) {
@@ -226,6 +312,31 @@
                     }
                 }
 
+                .detail {
+                    display: flex;
+                    gap: 0.13333rem;
+                    font-size: 0.35rem;
+                    color: #dadada;
+
+                    .detail-item {
+                        display: flex;
+                        gap: 0.13333rem;
+                        align-items: center;
+                        background-color: rgba(88, 88, 88, 0.2);
+                        padding: 0.04rem 0.13333rem;
+                        border-radius: 0.13333rem;
+                        max-width: 4rem;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        white-space: nowrap;
+
+                        img {
+                            width: 0.35rem;
+                            height: 0.35rem;
+                        }
+                    }
+                }
+
                 .desc {
                     font-size: 0.35rem;
                     color: #dadada;
@@ -235,12 +346,29 @@
             }
 
             .body-content {
+                width: 100%;
                 gap: 0.07rem;
 
                 .content-item {
                     width: calc((100% - 0.14rem) / 3);
                     aspect-ratio: 3/4;
                     border-radius: 0;
+
+                    .like-count {
+                        font-size: 0.37333rem;
+                        padding: 0.13333rem 0.26666rem;
+
+                        img {
+                            width: 0.42666rem;
+                            height: 0.42666rem;
+                            margin-right: 0.13333rem;
+                        }
+                    }
+
+                    .poster {
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             }
 

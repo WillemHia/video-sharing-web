@@ -32,7 +32,7 @@ export const NAV_LIST = [
     },
     {
         name: '我的',
-        path: '/user-info',
+        path: '/user-info/0',
     }
 ];
 

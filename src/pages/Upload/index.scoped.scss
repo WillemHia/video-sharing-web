@@ -60,7 +60,7 @@
                     width: calc(100vw - 1rem);
                     list-style: none;
                     background-color: #141414;
-                    margin-top: 0.2rem;
+                    margin-top: 0.4rem;
                     border-radius: 0.13333rem;
 
                     li {
@@ -119,6 +119,7 @@
     .container {
         padding-top: 50px;
         font-size: 14px;
+        height: 100%;
 
         .nav-back {
             display: none;
@@ -164,6 +165,8 @@
                         background-color: #191919;
                         margin-top: 10px;
                         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+                        max-height: 300px;
+                        overflow-y: auto;
 
                         li {
                             text-align: start;

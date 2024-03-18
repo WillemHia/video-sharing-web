@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/stores/hooks";
 import { selectIsMobile } from "@/stores/slices/deviceAdjustSlice";
@@ -39,6 +39,19 @@ const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible, commentV
     const [acitveIcon, setActiveIcon] = useState(0);
     const [showMoreLabel, setShowMoreLabel] = useState(false);
     const [moreInterctionVisible, setMoreInterctionVisible] = useState(false);
+    const MoreInterctionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (MoreInterctionRef.current && !MoreInterctionRef.current.contains(e.target as Node)) {
+                setMoreInterctionVisible(false)
+            }
+        }
+        document.addEventListener('click', handleClick)
+        return () => {
+            document.removeEventListener('click', handleClick)
+        }
+    }, [])
 
     const mobileInterctionClickHandle = () => {
         clickCount++;
@@ -67,7 +80,11 @@ const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible, commentV
                     <span className="video-interction-item-text ">
                         1.5万
                     </span>
-                    <div className={`more-interction ${moreInterctionVisible && 'more-interction-visible'}`} onMouseEnter={isMobile ? () => { } : () => { setMoreInterctionVisible(true) }} onMouseLeave={isMobile ? () => { } : () => { setMoreInterctionVisible(false) }}>
+                    <div
+                        className={`more-interction ${moreInterctionVisible && 'more-interction-visible'}`}
+                        onMouseEnter={isMobile ? () => { } : () => { setMoreInterctionVisible(true) }}
+                        onMouseLeave={isMobile ? () => { } : () => { setMoreInterctionVisible(false) }}
+                        ref={MoreInterctionRef}>
                         {InterctionIcons.filter(item => item.id !== acitveIcon).map(item => (
                             <img
                                 className={`video-interction-item-icon ${item.name}`}
@@ -102,7 +119,7 @@ const Interction: FC<Props> = ({ introductionVisible, videoTimeVisible, commentV
             </div>
             <div className="video-detail" style={{ opacity: `${videoTimeVisible ? '0' : '1'}` }}>
                 <div className="video-author">
-                    <span onClick={()=> navigate('/user-info')}>@小明爱敲代码</span>
+                    <span onClick={() => navigate('/user-info')}>@小明爱敲代码</span>
                 </div>
                 <div className={`video-description-label ${!showMoreLabel && 'video-description-label-hidden'}`} onClick={() => setShowMoreLabel(!showMoreLabel)}>
                     <span>小明每天敲18个小时的代码，结果是什么都不会，只会输出HolleWord，于是小明放弃了敲打代。</span>

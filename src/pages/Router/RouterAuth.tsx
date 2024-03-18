@@ -13,7 +13,11 @@ const RouterAuth: FC<Props> = ({ children }: Props) => {
     // const route = matchs ? matchs[0].route : {}
 
     if (route.meta?.auth) {
-        return <Navigate to="/login" replace />
+        const token = localStorage.getItem('token')
+        if (token) {
+            return <>{children}</>
+        }
+        return <Navigate to={`${window.innerWidth > 768 ? '/login' : '/mobile-login'}`} replace />
     }
 
     if (route.redirect) {

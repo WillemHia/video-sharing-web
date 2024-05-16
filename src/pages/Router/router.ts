@@ -61,6 +61,14 @@ const routes: Routes[] = [
         },
     },
     {
+        path: "/search",
+        Component: lazy(()=> import('@/pages/Search')),
+        meta: {
+            mobileHeaderHidden: true,
+            tabbarHidden: true,
+        }
+    },
+    {
         path: "*",
         Component: lazy(() => import('@/pages/NotFound')),
         meta: {

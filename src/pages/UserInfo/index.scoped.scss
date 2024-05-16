@@ -234,6 +234,15 @@
             display: flex;
             position: relative;
 
+            .video-back {
+                position: absolute;
+                top: 0.4rem;
+                left: 0.4rem;
+                font-size: 0.64rem;
+                color: rgba(106, 106, 106, 0.3);
+                z-index: 2;
+            }
+
             .background {
                 height: 100%;
                 width: 100%;
@@ -283,6 +292,7 @@
             background-color: #000000;
             border-radius: 0.3rem;
             padding: 0.5233rem 0;
+            padding-bottom: 0;
 
             .info-container {
                 width: 100%;

@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { matchRoutes, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/stores/hooks";
-import { selectIsVideoFullScreen, selectIsLayoutRouteTop } from "@/stores/slices/deviceAdjustSlice";
+import { selectIsVideoFullScreen } from "@/stores/slices/deviceAdjustSlice";
 import Header from "./components/Header";
 import Tabbar from "./components/Tabbar";
 import Navigate from "./components/Navigate";
@@ -14,7 +14,6 @@ import routes from "../Router/router";
 const Layout: FC = () => {
     const [shortNavVisible, setShortNavVisible] = useState(false);
     const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
-    const isLayoutRouteTop = useAppSelector(selectIsLayoutRouteTop);
     const location = useLocation();
     const meta = matchRoutes(routes, location)![0].route.meta;
 
@@ -35,7 +34,7 @@ const Layout: FC = () => {
                     <Navigate shortNavVisible={shortNavVisible} />
                 </div>
             )}
-            <div className={`layout ${isVideoFullScreen && 'layout-full'}`} style={{ zIndex: `${isLayoutRouteTop ? '3' : '0'}` }}>
+            <div className={`layout ${isVideoFullScreen && 'layout-full'}`}>
                 <Router />
             </div>
             {!meta?.headerHidden && (
@@ -43,7 +42,7 @@ const Layout: FC = () => {
                     <PCHeader changeNavLen={setShortNavVisible} shortNavVisible={shortNavVisible} />
                 </header>
             )}
-            {!meta?.tabbarHidden && (
+            {!meta?.tabbarHidden && !location.state?.tabbarHidden && (
                 <div className="tabbar">
                     <Tabbar />
                 </div>

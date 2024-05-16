@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import './index.scoped.scss'
 
 interface Props {
-    onClose: () => void;
+    onClose?: () => void;
     children: React.ReactNode;
 }
 

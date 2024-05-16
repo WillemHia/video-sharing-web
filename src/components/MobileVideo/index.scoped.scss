@@ -1,139 +1,106 @@
-.container {
-    width: 100%;
-    background: #0a0a0a;
-    border-radius: 0.13333rem;
+.container-mobile {
+    display: flex;
+    height: calc(100vh - 1.6rem);
+    overflow-x: hidden;
     position: relative;
-    transition: all 0.3s ease;
 
-    .play-icon {
-        position: absolute;
-        z-index: 99;
-        width: 100%;
+    .video-list {
         height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        transition: all 0.3s linear;
 
-        img {
-            width: 1.6rem;
-            height: 1.6rem;
-            opacity: 0.3;
+        .swiper {
+            width: 100%;
         }
     }
 
-    .video {
-        width: 100%;
-        height: 100%;
-        border-radius: 0.13333rem;
-    }
-
-    .video-progress {
+    .video-more {
         position: absolute;
-        bottom: 0;
-        left: 0.26666rem;
-        width: calc(100% - 0.53333rem);
+        right: -2.5rem;
+        width: 2.5rem;
+        opacity: 0;
+        height: 100%;
+        color: #dadada;
+        transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        margin-bottom: 0.05rem;
-        z-index: 100;
-        visibility: visible;
+        align-items: center;
+
+        .title {
+            font-size: 0.37333rem;
+            padding: 0.13333rem 0 0.26666rem 0;
+        }
+
+        ul {
+            list-style: none;
+            overflow-y: auto;
+
+            li {
+                width: 2.3rem;
+                aspect-ratio: 3/4;
+                margin-bottom: 0.26666rem;
+                background-color: #5e5e5e;
+                border-radius: 0.13333rem;
+                overflow: hidden;
+                position: relative;
+
+                .poster {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .like-show {
+                    position: absolute;
+                    z-index: 2;
+                    bottom: 0.05rem;
+                    left: 0.05rem;
+                    font-size: 0.35rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.1rem;
+                    text-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.8);
+
+                    .like-icon {
+                        width: 0.4rem;
+                        height: 0.4rem;
+                        filter: drop-shadow(0 0 0.1rem rgba(0, 0, 0, 0.5));
+                    }
+                }
+
+                .mark {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 3;
+                    font-size: 14px;
+                    color: #dadada;
+                    background-color: rgba(0, 0, 0, 0.6);
+                    top: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .video-more-active {
+        right: 0;
         opacity: 1;
-        transition: all  0.1s 0.3s ease-in-out;
-
-        .video-time {
-            font-size: 0.42666rem;
-            color: #717171;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.13333rem;
-            transition: all 0.3s ease-in-out;
-
-            .current-time {
-                color: #dadada;
-            }
-        }
-
-        .progress {
-            width: 100%;
-            height: 0.08rem;
-            background: rgba(143, 143, 143, 0.3);
-            border-radius: 0.04rem;
-            position: relative;
-
-            &::after {
-                content: "";
-                width: var(--progress-width);
-                height: 100%;
-                background: #7e7e7e;
-                border-radius: 0.04rem;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .progress-bar {
-                width: 0.12rem;
-                height: 0.12rem;
-                border-radius: 50%;
-                background: #7e7e7e;
-                position: absolute;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                left: var(--progress-width);
-            }
-        }
-
-        .progress-pause {
-            background: rgba(255, 255, 255, 0.3);
-            height: 0.12rem;
-            border-radius: 0.06rem;
-
-            &::after {
-                background: #ffffff;
-            }
-
-            .progress-bar {
-                background: #ffffff;
-                width: 0.16rem;
-                height: 0.16rem;
-            }
-        }
-
-        .progress-move {
-            background: #3f3f3f;
-            height: 0.2rem;
-            border-radius: 0.1rem;
-
-            &::after {
-                background: #ffffff;
-            }
-
-            .progress-bar {
-                background: #ffffff;
-                width: 0.16rem;
-                height: 0.3rem;
-                border-radius: 0.08rem;
-            }
-        }
+        transition: right 0.3s ease-in-out, opacity 0.2s 0.1s ease-in-out;
     }
+}
 
-    .video-progress-hidden {
-        visibility: hidden;
-        opacity: 0;
-        transition: none;
-    }
+.container-full {
+    height: 100%;
+    background: #0a0a0a;
 
-    .interction-container {
-        visibility: visible;
-        opacity: 1;
-        transition: all 0.1s 0.3s ease-in-out;
-    }
-
-    .interction-container-hidden {
-        visibility: hidden;
-        opacity: 0;
-        transition: none;
+    .video-back {
+        position: absolute;
+        top: 0.4rem;
+        left: 0.4rem;
+        font-size: 0.64rem;
+        color: rgba(106, 106, 106, 0.3);
+        z-index: 2;
     }
 }

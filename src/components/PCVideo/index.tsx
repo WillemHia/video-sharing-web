@@ -1,343 +1,284 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
-import { videoTimeFormat } from "@/utils/videoTimeFormat";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { setIsVideoFullScreen, selectIsVideoFullScreen, setIsLayoutRouteTop } from "@/stores/slices/deviceAdjustSlice";
-import Interction from "../Interction";
-import "./index.scoped.scss";
-import SoundIcon from "@/assets/images/sound.svg";
-import FullScreenIcon from "@/assets/images/fullScreen.svg";
-import PauseIcon from "@/assets/images/pause.svg";
-import PlayIcon from "@/assets/images/play.svg";
-import ExitFullScreenIcon from "@/assets/images/exitFullScreen.svg";
-import MuteIcon from "@/assets/images/mute.svg";
+import React, { FC, useEffect, useState } from "react";
+import { DownOutlined, UpOutlined, LeftOutlined, LeftCircleFilled } from "@ant-design/icons";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Mousewheel, Keyboard } from 'swiper/modules';
+import type { SwiperClass } from "swiper/react";
+import { useAppSelector, useAppDispatch } from "@/stores/hooks";
+import { selectIsVideoFullScreen, selectVideoListArray, deleteVideoListArray } from "@/stores/slices/deviceAdjustSlice";
+import { setVideoList } from "@/stores/slices/videoSlice";
+import Introduction from "@/components/Introduction";
+import Player from "@/components/PCVideo/Player";
+import { IntroudctionType } from "@/enums";
+import 'swiper/css';
+import "./index.scoped.scss"
+import { VideoInfo, VideoInteraction } from "@/api/video/type";
+import { getRandowVideo, getRecommendVideoByUserId, getRecommendVideoByVideoId, getVideoByUserId } from "@/api/video";
+import { getInteractionByUserId } from "@/api/Interaction";
+import { getFansCount } from "@/api/follow";
+import { UserInfo } from "@/api/user/type";
+import { getAllCommentByVideoId, getCommentByVideoId } from "@/api/comment";
+import { CommentDetail } from "@/api/comment/type";
+import { CommentLike } from "@/api/commetLike/type";
+import { getCommnetLikeByVideoIdAndUserId } from "@/api/commetLike";
+import { createWatchHistory } from "@/api/watchHistory";
 
 interface Props {
-    introductionVisible: boolean,
-    index: number,
-    activeIndex: number,
-    changeAllowTouchMove?: (allowTouchMove: boolean) => void,
-    commentVisibleHandle?: () => void,
-}
-interface CustomFullscreenElement extends Element {
-    msRequestFullscreen?(): void,
-    mozRequestFullScreen?(): void,
-    webkitRequestFullScreen?(): void,
-}
-interface CustomFullscreenDocument extends Document {
-    msExitFullscreen?(): void,
-    mozCancelFullScreen?(): void,
-    webkitCancelFullScreen?(): void
+    videoList: VideoInteraction[] | VideoInfo[];
+    videoListIndex?: number;
 }
 
-const PCVideo: FC<Props> = ({ introductionVisible, index, activeIndex, changeAllowTouchMove, commentVisibleHandle }) => {
-    const dispatch = useAppDispatch();
+let recommendCount = 0;
+const PCVideo: FC<Props> = ({ videoList, videoListIndex }) => {
     const isVideoFullScreen = useAppSelector(selectIsVideoFullScreen);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState('00:00');
-    const [duration, setDuration] = useState('00:00');
-    const [progress, setProgress] = useState(0);
-    const [soundProgress, setSoundProgress] = useState(50);
-    const [progressVisible, setProgressVisible] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const videoProgressRef = useRef<HTMLDivElement>(null);
-    const videoSoundProgressRef = useRef<HTMLDivElement>(null);
+    const videoListArray = useAppSelector(selectVideoListArray);
+    const dispatch = useAppDispatch();
+    const [activeIndex, setActiveIndex] = useState(videoListIndex || 0);
+    const [swiperPCInstance, setSwipePCrInstance] = useState<SwiperClass>();
+    const [introductionVisible, setIntroductionVisible] = useState(false);
+    const [allowTouchMove, setAllowTouchMove] = useState(true);
+    const [videoListData, setVideoListData] = useState<VideoInteraction[]>([]);
+    const [interactionVideoCount, setInteractionVideoCount] = useState<number>(0);
+    const [fansCount, setFansCount] = useState<number>(0);
+    const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
+    const [follow, setFollow] = useState(false);
+    const [index, setIndex] = useState(0);
+    const [commentDetail, setCommentDetail] = useState<CommentDetail[]>([]);
+    const [commentLikeList, setCommentLikeList] = useState<CommentLike[]>([]);
+    const [commentCount, setCommentCount] = useState<number>(0);
+    const [isRecommend, setIsRecommend] = useState<boolean>(false);
+    const [watchProgrees, setWatchProgrees] = useState<number>(0);
 
-    const handleVideoState = useCallback(() => {
-        setIsPlaying(!isPlaying);
-    }, [isPlaying]);
+    const getCommentCountData = async (videoId: number) => {
+        try {
+            const data = await getCommentByVideoId(videoId);
+            setCommentCount(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getVideoByUserIdData = async (userId: string) => {
+        try {
+            const data = await getVideoByUserId(userId)
+            setVideoListData(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const getInteractionByUserIdData = async (userId: string) => {
+        try {
+            const data = await getInteractionByUserId(userId)
+            setInteractionVideoCount(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const getFansCountData = async (userId: string) => {
+        try {
+            const data = await getFansCount(userId)
+            setFansCount(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const getCommentDetailData = async (videoId: number) => {
+        try {
+            const data = await getAllCommentByVideoId(videoId)
+            setCommentDetail(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const getCommentLikeListData = async (videoId: number) => {
+        try {
+            const data = await getCommnetLikeByVideoIdAndUserId(videoId)
+            setCommentLikeList(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getRecommendByVideoIdData = async (videoId: number) => {
+        try {
+            const data = await getRecommendVideoByVideoId(videoId);
+            dispatch(setVideoList(data))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getRandowVideoData = async () => {
+        try {
+            const res = await getRandowVideo();
+            dispatch(setVideoList(res));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const getRecommendVideoByUserIdData = async () => {
+        try {
+            const res = await getRecommendVideoByUserId();
+            dispatch(setVideoList(res));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const introductionVisibleHandle = () => {
+        setIntroductionVisible(true);
+        setIndex(0)
+    }
+
+    const commentVisibleHandle = () => {
+        setIntroductionVisible(true);
+        setIndex(1)
+    }
+
+    const slideToIndex = (index: number) => {
+        if (swiperPCInstance) {
+            swiperPCInstance.slideTo(index)
+        }
+    }
+
+    const handleSildeChange = (swiper: SwiperClass) => {
+        if (localStorage.getItem('userInfo')) {
+            cratetWatchProgress(videoList![activeIndex].id, watchProgrees / 100)
+            setWatchProgrees(0)
+        }
+        setActiveIndex(swiper.realIndex)
+    }
+
+    const cratetWatchProgress = async (videoId: number, watchProgrees: number) => {
+        try {
+            await createWatchHistory({ videoId, progress: watchProgrees })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
-        const { current } = videoRef;
-        if (current) {
-            current.addEventListener('timeupdate', () => {
-                const { currentTime, duration } = current;
-                setCurrentTime(videoTimeFormat(currentTime));
-                setProgress(currentTime / duration * 100);
-                setDuration(videoTimeFormat(duration));
-            });
-            current.addEventListener('ended', () => {
-                setIsPlaying(false);
-            });
-            current.addEventListener('loadedmetadata', () => {
-                current.volume = 0.5;
-            });
-            current.addEventListener('volumechange', () => {
-                setSoundProgress(current.volume * 100);
-            });
+        if (swiperPCInstance) {
+            swiperPCInstance.allowTouchMove = allowTouchMove;
+        }
+    }, [allowTouchMove, swiperPCInstance])
+
+    useEffect(() => {
+        if (userInfo && introductionVisible && index === 0) {
+            getVideoByUserIdData(userInfo.id.toString())
+            getInteractionByUserIdData(userInfo.id.toString())
+            getFansCountData(userInfo.id.toString())
         }
 
-        return () => {
-            if (current) {
-                current.removeEventListener('timeupdate', () => { });
-                current.removeEventListener('ended', () => { });
-                current.removeEventListener('loadedmetadata', () => { });
-                current.removeEventListener('volumechange', () => { });
+        if (introductionVisible && index === 1) {
+            getCommentDetailData(videoList![activeIndex].id)
+            if (localStorage.getItem('userInfo')) {
+                getCommentLikeListData(videoList![activeIndex].id)
             }
-        };
-    }, []);
-
-    useEffect(() => {
-        const { current } = videoRef;
-        if (current) {
-            setDuration(videoTimeFormat(isNaN(current.duration) ? 0 : current.duration))
         }
-    }, [videoRef])
+    }, [introductionVisible, userInfo, index, videoList, activeIndex])
 
     useEffect(() => {
-        const { current } = videoRef;
-        if (current) {
-            if (isPlaying) {
-                current.play();
+        if (isRecommend && recommendCount < 2) {
+            getRecommendByVideoIdData(videoList![activeIndex].id)
+            setIsRecommend(false)
+            recommendCount++;
+        }
+        if (activeIndex === videoList.length - 4) {
+            if (localStorage.getItem('userInfo')) {
+                getRecommendVideoByUserIdData()
             } else {
-                current.pause();
+                getRandowVideoData()
             }
+            recommendCount = 0;
         }
-    }, [isPlaying]);
-
-    useEffect(() => {
-        const handleProgressKeyDown = (e: KeyboardEvent) => {
-            if (e.target !== document.body) return
-            if (activeIndex !== index) return;
-            const { current } = videoRef;
-            if (current) {
-                switch (e.code) {
-                    case 'ArrowLeft':
-                        current.currentTime -= 2;
-                        break;
-                    case 'ArrowRight':
-                        current.currentTime += 2;
-                        break;
-                    case 'Space':
-                        handleVideoState();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        const changeVideoFullScreen = () => {
-            if (!document.fullscreenElement) {
-                dispatch(setIsVideoFullScreen(false));
-            }
-        }
-        document.addEventListener('keydown', handleProgressKeyDown);
-        //监听全屏退事件
-        document.addEventListener('fullscreenchange', changeVideoFullScreen);
-        return () => {
-            document.removeEventListener('keydown', handleProgressKeyDown);
-            document.removeEventListener('fullscreenchange', changeVideoFullScreen);
-        };
-    }, [activeIndex, index, dispatch, handleVideoState]);
-
-    const handleProgressDown = ({ nativeEvent: e }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (e.button !== 0) return;
-        setProgressVisible(true);
-        document.addEventListener('mouseup', handleProgressUp);
-        const { current } = videoRef;
-        if (current) {
-            const { current: progress } = videoProgressRef;
-            if (progress) {
-                progress.addEventListener('mousemove', handleProgressMove);
-                changeProgress(e, progress, current);
-                current.pause();
-                setIsPlaying(false);
-            }
-        }
-    };
-
-    const handleProgressUp = () => {
-        setProgressVisible(false);
-        const { current: progress } = videoProgressRef;
-        if (progress) {
-            progress.removeEventListener('mousemove', handleProgressMove);
-        }
-        const { current } = videoRef;
-        if (current) {
-            current.play();
-            setIsPlaying(true);
-        }
-        document.removeEventListener('mouseup', handleProgressUp);
-    };
-
-    const handleProgressMove = (e: MouseEvent) => {
-        const { current } = videoRef;
-        if (current) {
-            const { current: progress } = videoProgressRef;
-            if (progress) {
-                changeProgress(e, progress, current);
-            }
-        }
-    };
-
-    const changeProgress = (e: MouseEvent, progress: HTMLDivElement, video: HTMLVideoElement) => {
-        const { width, x } = progress.getBoundingClientRect();
-        const offsetX = e.clientX - x;
-        //边界处理
-        if (offsetX < 0) {
-            video.currentTime = 0;
-            return;
-        }
-        if (offsetX > width) {
-            video.currentTime = video.duration;
-            return;
-        }
-        video.currentTime = video.duration * offsetX / width;
-    }
-
-
-    const handleSoundProgressDown = ({ nativeEvent: e }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (e.button !== 0) return;
-        document.addEventListener('mouseup', handleSoundProgressUp)
-        changeAllowTouchMove!(false)
-        const { current: soundProgress } = videoSoundProgressRef
-        if (soundProgress) {
-            soundProgress.addEventListener('mousemove', handleSoundProgressMove)
-            const { current: video } = videoRef
-            if (video) {
-                changeSoundProgress(e, soundProgress, video)
-            }
-        }
-    }
-
-    const handleSoundProgressUp = () => {
-        changeAllowTouchMove!(true)
-        const { current: soundProgress } = videoSoundProgressRef
-        if (soundProgress) {
-            soundProgress.removeEventListener('mousemove', handleSoundProgressMove)
-        }
-        document.removeEventListener('mouseup', handleSoundProgressUp)
-    }
-
-    const handleSoundProgressMove = (e: MouseEvent) => {
-        e.stopPropagation()
-        const { current: soundProgress } = videoSoundProgressRef
-        if (soundProgress) {
-            const { current: video } = videoRef
-            if (video) {
-                changeSoundProgress(e, soundProgress, video)
-            }
-        }
-    }
-
-    const changeSoundProgress = (e: MouseEvent, soundProgress: HTMLDivElement, video: HTMLVideoElement) => {
-        const { height, y } = soundProgress.getBoundingClientRect()
-        const offsetY = e.clientY - y
-        //边界处理
-        if (offsetY < 0) {
-            video.volume = 1
-            return
-        }
-        if (offsetY > height) {
-            video.volume = 0
-            return
-        }
-        video.volume = 1 - offsetY / height
-    }
-
-    const handleSoundClose = () => {
-        const { current } = videoRef
-        if (current) {
-            current.volume = 0
-        }
-    }
-
-    const handleSoundOpen = () => {
-        const { current } = videoRef
-        if (current) {
-            current.volume = 0.5
-        }
-    }
-
-    const handleFullScreen = () => {
-        dispatch(setIsLayoutRouteTop(true))
-        let ele = document.documentElement as CustomFullscreenElement
-        if (ele.requestFullscreen) {
-            ele.requestFullscreen()
-        } else if (ele.webkitRequestFullScreen) {
-            ele.webkitRequestFullScreen()
-        } else if (ele.mozRequestFullScreen) {
-            ele.mozRequestFullScreen()
-        } else if (ele.msRequestFullscreen) {
-            ele.msRequestFullscreen()
-        }
-        dispatch(setIsVideoFullScreen(true))
-    }
-
-    const handleExitFullScreen = () => {
-        dispatch(setIsLayoutRouteTop(false))
-        let ele = document as CustomFullscreenDocument
-        if (ele.exitFullscreen) {
-            ele.exitFullscreen()
-        } else if (ele.webkitCancelFullScreen) {
-            ele.webkitCancelFullScreen()
-        } else if (ele.mozCancelFullScreen) {
-            ele.mozCancelFullScreen()
-        } else if (ele.msExitFullscreen) {
-            ele.msExitFullscreen()
-        }
-        dispatch(setIsVideoFullScreen(false))
-    }
+    }, [activeIndex, getRandowVideoData, getRecommendByVideoIdData, getRecommendVideoByUserIdData, isRecommend, videoList])
 
     return (
         <>
-            <div className="container" style={{ borderRadius: `${introductionVisible ? '20px 0 0 20px' : '20px'}` }}>
-                <div className="container-background" style={{ borderRadius: `${introductionVisible ? '20px 0 0 20px' : '20px'}` }}>
-                    <img src="https://pic.616pic.com/bg_w1180/00/09/53/W757CqGnAG.jpg!/fh/300" alt="" />
+            <div className="container-pc" style={{ padding: `${isVideoFullScreen || videoListArray.length > 0 ? '0' : '10px'}` }}>
+                {videoListArray.length > 0 &&
+                    <LeftCircleFilled className="video-back" onClick={() => {
+                        dispatch(deleteVideoListArray(videoList!))
+                    }} />}
+                <div className="video-list" style={{ background: `${isVideoFullScreen || videoListArray.length > 0 ? '#242424' : 'transparent'}` }}>
+                    <Swiper
+                        spaceBetween={20}
+                        speed={800}
+                        direction="vertical"
+                        mousewheel={true}
+                        keyboard={true}
+                        modules={[Mousewheel, Keyboard]}
+                        onSlideChange={handleSildeChange}
+                        onSwiper={setSwipePCrInstance}
+                        touchStartPreventDefault={false}
+                        touchMoveStopPropagation={true}
+                        style={{ width: `${introductionVisible ? 'min(70%, calc(100% - 300px))' : '100%'}` }}
+                        initialSlide={activeIndex}
+                    >
+                        {
+                            videoList?.map((item, index) => (
+                                <SwiperSlide key={item.id}>
+                                    <Player introductionVisible={introductionVisible}
+                                        index={index}
+                                        activeIndex={activeIndex}
+                                        changeAllowTouchMove={setAllowTouchMove}
+                                        commentVisibleHandle={commentVisibleHandle}
+                                        videoId={item.id}
+                                        setUserInfo={setUserInfo}
+                                        setFollow={setFollow}
+                                        follow={follow}
+                                        getCommentCountData={getCommentCountData}
+                                        commentCount={commentCount}
+                                        setIsRecommend={setIsRecommend}
+                                        setWatchProgrees={setWatchProgrees}
+                                    />
+                                </SwiperSlide>
+                            )
+                            )
+                        }
+                    </Swiper>
+                    <div className={`video-more-active ${introductionVisible && 'video-more'}`} onClick={introductionVisibleHandle}>
+                        <LeftOutlined />
+                    </div>
+                    <div className={`video-introudction ${introductionVisible && 'video-introudction-active'}`}>
+                        <Introduction
+                            type={IntroudctionType.VIDEO}
+                            onClosed={() => setIntroductionVisible(false)}
+                            index={index}
+                            setIndex={setIndex}
+                            userInfo={userInfo}
+                            videoList={videoListData}
+                            interactionVideoCount={interactionVideoCount}
+                            fansCount={fansCount}
+                            follow={follow}
+                            setFollow={setFollow}
+                            slideToIndex={slideToIndex}
+                            commentDetail={commentDetail}
+                            getCommentDetailData={getCommentDetailData}
+                            commentLikeList={commentLikeList}
+                            getCommentLikeListData={getCommentLikeListData}
+                            videoId={videoList.length > 0 ? videoList[activeIndex].id : 0}
+                            getCommentCountData={getCommentCountData}
+                        />
+                    </div>
                 </div>
-                {!isPlaying && (
-                    <div className="play-icon" onClick={handleVideoState}>
-                        <img src={PlayIcon} alt="play" />
+                {(!isVideoFullScreen && !(videoListArray.length > 0)) && (
+                    <div className="video-choose">
+                        <UpOutlined className={`video-choose-icon ${activeIndex === 0 && 'video-choose-icon-disabled'}`} onClick={() => swiperPCInstance!.slidePrev()} />
+                        <DownOutlined className={`video-choose-icon ${activeIndex === 4 && 'video-choose-icon-disabled'}`} onClick={() => swiperPCInstance!.slideNext()} />
                     </div>
                 )}
-                <video
-                    className="video"
-                    src="/test.mp4"
-                    poster="https://pic.616pic.com/bg_w1180/00/09/53/W757CqGnAG.jpg!/fh/300"
-                    ref={videoRef}
-                    onClick={handleVideoState}
-                />
-                <Interction introductionVisible={introductionVisible} commentVisibleHandle={commentVisibleHandle} />
-                <div className="video-controls" style={{ borderRadius: `${introductionVisible ? '0 0 0 20px' : '0 0 20px 20px'}` }}>
-                    <div className={`video-controls-top ${progressVisible && 'video-controls-top-active'}`}
-                        onMouseDown={handleProgressDown}
-                        ref={videoProgressRef}>
-                        <div className="video-controls-top-progress" style={{ width: `${progress}%` }}>
-                            <div className="video-controls-top-progress-bar" />
-                        </div>
-                    </div>
-                    <div className="video-controls-left">
-                        {!isPlaying ?
-                            <img className="video-controls-icon" src={PlayIcon} alt="" onClick={handleVideoState} /> :
-                            <img className="video-controls-icon" src={PauseIcon} alt="" onClick={handleVideoState} />
-                        }
-                        <div className="video-controls-left-time">
-                            <div className="video-controls-time-current">{currentTime}</div>
-                            <div className="video-controls-time-separator">/</div>
-                            <div className="video-controls-time-total">{duration}</div>
-                        </div>
-                    </div>
-                    <div className="video-controls-right">
-                        <div className="video-controls-suond">
-                            {soundProgress === 0 ? <img className="video-controls-right-sound" src={MuteIcon} alt="" onClick={handleSoundOpen} /> : <img className="video-controls-right-sound" src={SoundIcon} alt="" onClick={handleSoundClose} />}
-                            <div className="video-sound-progress-conatiner">
-                                <div className="video-sound-progress"
-                                    onMouseDown={handleSoundProgressDown}
-                                    ref={videoSoundProgressRef}
-                                    style={{ '--progrees-height': `${soundProgress}%` } as React.CSSProperties}>
-                                    <div className="video-sound-progress-bar" />
-                                </div>
-                            </div>
-                        </div>
-                        {isVideoFullScreen ?
-                            <img className="video-controls-right-exitFullScreen" src={ExitFullScreenIcon} alt="" onClick={handleExitFullScreen} />
-                            :
-                            <img className="video-controls-right-fullScreen" src={FullScreenIcon} alt="" onClick={handleFullScreen} />
-                        }
-                    </div>
-                </div>
-            </div>
+            </div >
         </>
-    );
-};
+    )
+}
 
 export default PCVideo;

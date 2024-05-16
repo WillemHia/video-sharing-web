@@ -1,4 +1,5 @@
 import { Interaction } from "../Interaction/type";
+import { UserInfo } from "../user/type";
 
 export interface UploadVideoResponse {
     url: string;
@@ -26,5 +27,15 @@ export interface Video {
 }
 
 export interface VideoInteraction extends Video {
-    interaction: Interaction[];
+    interactionCount: number;
+}
+
+export interface VideoDetail extends Video {
+    user: UserInfo;
+}
+
+export interface VideoInfo extends VideoDetail {
+    collectCount: number;
+    interactionCount: number;
+    commentCount: number;
 }

@@ -45,7 +45,7 @@ const Tabbar: FC = () => {
             </Button>
             <span className={`item ${activeItem === 1 && 'active-item'}`} onClick={() => {
                 setActiveItem(1)
-                navigate('user-info/0',)
+                navigate(`user-info/${JSON.parse(localStorage.getItem('userInfo') || '{"id":0}').id}`,)
             }}>我</span>
         </div>
     );

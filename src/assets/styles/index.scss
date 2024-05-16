@@ -12,6 +12,7 @@ input,
 textarea,
 button {
     font-family: '阿里妈妈方圆体 VF Regular';
+    --primary-color: #d4237a;
 }
 
 code {
@@ -28,7 +29,6 @@ code {
 
 #root {
     height: 100vh;
-    --primary-color: #d4237a;
 }
 
 ::-webkit-scrollbar {

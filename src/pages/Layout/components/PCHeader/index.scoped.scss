@@ -87,14 +87,31 @@
                     font-weight: 700;
                 }
 
-                .delete-icon {
-                    font-size: 14px;
+                .header-right {
+                    display: flex;
+                    gap: 10px;
                     color: #979797;
-                    transition: all 0.3s ease-in-out;
+                    align-items: center;
+                    font-size: 12px;
 
-                    &:hover {
-                        color: #242424;
-                        cursor: pointer;
+                    .delete-all {
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover {
+                            color: #242424;
+                            cursor: pointer;
+                        }
+                    }
+
+                    .delete-icon {
+                        font-size: 14px;
+                        color: #979797;
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover {
+                            color: #242424;
+                            cursor: pointer;
+                        }
                     }
                 }
             }
@@ -125,12 +142,18 @@
                         background: var(--primary-color);
                         color: #fff;
                         cursor: pointer;
-                    }
-                }
 
-                .no-history {
-                    font-size: 14px;
-                    color: #8d8d8d;
+                        .icon {
+                            color: #fff;
+                        }
+                    }
+
+                    .icon {
+                        color: #656565;
+                        font-size: 11px;
+                        margin-left: 5px;
+                        transition: all 0.3s ease-in-out;
+                    }
                 }
             }
 
@@ -307,7 +330,7 @@
             color: #fff;
         }
 
-        
+
 
         .user-menu {
             transform: translateY(0);
@@ -369,7 +392,7 @@
                 }
             }
 
-            .button-group{
+            .button-group {
                 display: flex;
                 gap: 10px;
             }

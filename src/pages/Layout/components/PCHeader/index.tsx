@@ -2,8 +2,6 @@ import React, { FC, useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { message } from "antd";
 import { SearchOutlined, DownOutlined, VideoCameraAddOutlined, DeleteOutlined, UpOutlined, CloseOutlined } from "@ant-design/icons";
-import { selectUserInfo, setUserInfo } from "@/stores/slices/userInfoSlice";
-import { useAppSelector, useAppDispatch } from "@/stores/hooks";
 import "./index.scoped.scss";
 import { NAV_LONG_LENGTH, NAV_SHORT_LENGTH, SEARCH_HISTORY_LIST } from "@/constants";
 import Button from "../../../../components/Button";
@@ -13,7 +11,10 @@ import HOTICON from "@/assets/images/hot.png";
 import Mark from "@/components/Mark";
 import { loginApi } from "@/api/login";
 import { createUser, getUserInfo } from "@/api/user/index";
-import { uploadVideo } from "@/api/video";
+import { searchVideo, uploadVideo } from "@/api/video";
+import { UserInfo } from "@/api/user/type";
+import { createSearchHistory, deleteAll, deleteById, getSearchHistoryByUserId } from "@/api/searchHistory";
+import { SearchHistory } from "@/api/searchHistory/type";
 
 
 interface Props {
@@ -23,10 +24,9 @@ interface Props {
 
 const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-    const userInfo = useAppSelector(selectUserInfo);
+    const [selfInfo, setSelfInfo] = useState<UserInfo | null>(JSON.parse(localStorage.getItem('userInfo') || 'null'));
     const [params] = useSearchParams();
-    const [historyList, setHistoryList] = useState(SEARCH_HISTORY_LIST.slice(0, 5));
+    const [historyList, setHistoryList] = useState<SearchHistory[]>([]);
     const [showMore, setShowMore] = useState(false);
     const [showSearchBoard, setShowSearchBoard] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
@@ -36,6 +36,8 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const UploadVideoRef = useRef<HTMLInputElement>(null);
+    const [deleteSearch, setDeleteSearch] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside);
@@ -48,6 +50,21 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
         setLoginModalVisible(params.get('login') === 'true');
     }, [params]);
 
+    const getSearchHistoryData = async (userId: number) => {
+        try {
+            const data = await getSearchHistoryByUserId(userId);
+            setHistoryList(data);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        if (selfInfo) {
+            getSearchHistoryData(selfInfo.id);
+        }
+    }, [selfInfo]);
+
     const handleClickOutside = (e: MouseEvent) => {
         if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
             setShowSearchBoard(false);
@@ -55,7 +72,6 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
     };
 
     const showMoreHistory = () => {
-        showMore ? setHistoryList(SEARCH_HISTORY_LIST.slice(0, 5)) : setHistoryList(SEARCH_HISTORY_LIST);
         setShowMore(!showMore);
     }
 
@@ -66,9 +82,13 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
             if (data.code === 200) {
                 localStorage.setItem('token', data.token!);
                 setLoginModalVisible(false);
-                if (!userInfo) {
+                setPhoneNumber('');
+                setPassword('');
+                setConfirmPassword('');
+                if (!selfInfo) {
                     const userInfo = await getUserInfo('0');
-                    dispatch(setUserInfo(userInfo));
+                    setSelfInfo(userInfo);
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 }
             } else {
                 message.error(data.message, 2);
@@ -98,7 +118,9 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
 
     const handleExit = () => {
         localStorage.removeItem('token');
-        dispatch(setUserInfo(null));
+        setSelfInfo(null);
+        localStorage.removeItem('userInfo');
+        navigate('/login');
         message.success('退出成功', 2);
     }
 
@@ -126,6 +148,40 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
         }
     }
 
+    const deleteOneSearch = async (id: number) => {
+        try {
+            await deleteById(id);
+            setHistoryList(historyList.filter(item => item.id !== id));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const deleteAllSearch = async () => {
+        try {
+            await deleteAll(selfInfo!.id);
+            setHistoryList([]);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const handleSearch = async (value?: string) => {
+        if (!searchValue && !value) {
+            message.info('请输入搜索内容', 2);
+            return;
+        };
+        try {
+            if (selfInfo) {
+                await createSearchHistory(selfInfo.id, value || searchValue);
+                const data = await searchVideo(value || searchValue);
+                navigate('/search', { state: { searchResultList: data, searchValue: value || searchValue } });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <div className="container">
             <div
@@ -137,20 +193,44 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
                 </Button>
             </div>
             <div className="search" ref={searchRef}>
-                <input type="text" placeholder="搜索" onFocus={() => setShowSearchBoard(true)} />
-                <SearchOutlined className="search-icon" />
+                <input type="text" placeholder="搜索" onFocus={() => setShowSearchBoard(true)} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                <SearchOutlined className="search-icon" onClick={() => handleSearch()} />
                 <div className={`search-board ${showSearchBoard && 'search-board-active'}`} onClick={(e) => e.stopPropagation()}>
-                    <div className="search-history-header">
+                    {historyList.length > 0 && <div className="search-history-header">
                         <span className="title">搜索历史</span>
-                        <DeleteOutlined className="delete-icon" />
-                    </div>
-                    <div className="search-history-body">
-                        {historyList.map(item => (
-                            <div className="search-history-item" key={item.id}>{item.name}</div>
+                        <div className="header-right">
+                            {deleteSearch && <span className="delete-all" onClick={deleteAllSearch}>全部删除</span>}
+                            {deleteSearch && <span>|</span>}
+                            {deleteSearch ? <span onClick={() => setDeleteSearch(false)}>取消</span> : <DeleteOutlined className="delete-icon" onClick={() => {
+                                setDeleteSearch(true);
+                                setShowMore(true);
+                            }} />}
+                        </div>
+                    </div>}
+                    {historyList.length > 0 && <div className="search-history-body">
+                        {!showMore && historyList.length >= 5 && historyList.slice(0, 5).map(item => (
+                            <div className="search-history-item" key={item.id} onClick={()=>{
+                                setSearchValue(item.content);
+                                handleSearch(item.content);
+                                setShowSearchBoard(false);
+                            }}>{item.content}{deleteSearch && <CloseOutlined className="icon" onClick={() => deleteOneSearch(item.id)} />}</div>
                         ))}
-                        <div className="search-history-item-more" onClick={showMoreHistory}>{showMore ? <UpOutlined /> : <DownOutlined />}</div>
-                        {/* <span className="no-history">暂无历史</span> */}
-                    </div>
+                        {historyList.length < 5 && historyList.map(item => (
+                            <div className="search-history-item" key={item.id} onClick={()=>{
+                                setSearchValue(item.content);
+                                handleSearch(item.content);
+                                setShowSearchBoard(false);
+                            }}>{item.content}{deleteSearch && <CloseOutlined className="icon" onClick={() => deleteOneSearch(item.id)} />}</div>
+                        ))}
+                        {showMore && historyList.map(item => (
+                            <div className="search-history-item" key={item.id} onClick={()=>{
+                                setSearchValue(item.content);
+                                handleSearch(item.content);
+                                setShowSearchBoard(false);
+                            }}>{item.content}{deleteSearch && <CloseOutlined className="icon" onClick={() => deleteOneSearch(item.id)} />}</div>
+                        ))}
+                        {historyList.length > 5 && <div className="search-history-item-more" onClick={showMoreHistory}>{showMore ? <UpOutlined /> : <DownOutlined />}</div>}
+                    </div>}
                     <div className="hot-video-header">
                         <span>热门视频</span>
                     </div>
@@ -182,23 +262,23 @@ const PCHeader: FC<Props> = ({ changeNavLen, shortNavVisible }) => {
                     </div>
                 </div>
             </div>
-            {userInfo
+            {selfInfo
                 ? (
                     <div className="container-right">
                         <Button onClick={handleUploadVideo}>
                             <VideoCameraAddOutlined className="add-video-icon" />上传视频
-                            <input type="file" accept="video/*" hidden ref={UploadVideoRef} onChange={videoUpload}/>
+                            <input type="file" accept="video/*" hidden ref={UploadVideoRef} onChange={videoUpload} />
                         </Button>
                         <div className="user-info">
                             <div className="avater">
-                                <img src={userInfo.avatar} alt="" />
+                                <img src={selfInfo.avatar} alt="" />
                             </div>
-                            <span className="user-name">{userInfo.username}</span>
+                            <span className="user-name">{selfInfo.username}</span>
                             <DownOutlined className="down-icon" />
 
                             <div className="user-menu">
                                 <ul>
-                                    <li onClick={() => navigate('user-info/0')}>个人中心</li>
+                                    <li onClick={() => navigate(`user-info/${selfInfo.id}`)}>个人中心</li>
                                     <li onClick={handleExit}>退出登录</li>
                                 </ul>
                             </div>

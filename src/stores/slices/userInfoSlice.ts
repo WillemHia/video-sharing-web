@@ -7,7 +7,7 @@ export interface UserInfoState {
 }
 
 const initialState: UserInfoState = {
-    userInfo: JSON.parse(localStorage.getItem('userInfo') || 'null'),
+    userInfo: null,
 };
 
 export const userInfoSlice = createSlice({
@@ -16,7 +16,6 @@ export const userInfoSlice = createSlice({
     reducers: {
         setUserInfo: (state, action: PayloadAction<UserInfo | null>) => {
             state.userInfo = action.payload;
-            localStorage.setItem('userInfo',JSON.stringify(action.payload))
         },
     },
 });

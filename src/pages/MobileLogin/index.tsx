@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { message } from "antd";
 import { loginApi } from "@/api/login";
-import { createUser } from "@/api/user";
+import { createUser, getUserInfo } from "@/api/user";
 import { useNavigate } from "react-router-dom";
 import './index.scoped.scss'
 import Button from "@/components/Button";
@@ -29,6 +29,8 @@ const MobileLogin: FC = () => {
                 const data = await loginApi({ phoneNumber, password })
                 if (data.code === 200) {
                     localStorage.setItem('token', data.token!)
+                    const userInfo = await getUserInfo('0');
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo))
                     navgiate(-1)
                 } else {
                     message.error(data.message, 2)

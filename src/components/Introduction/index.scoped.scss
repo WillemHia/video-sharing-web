@@ -74,7 +74,6 @@
         border-bottom: 1px solid #3a3a3a;
         display: flex;
         align-items: center;
-        gap: 10px;
 
         &-body {
             flex-grow: 1;
@@ -157,6 +156,54 @@
             aspect-ratio: 3/4;
             background-color: #383838;
             border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+
+            &:hover {
+                .poster {
+                    transform: scale(1.1);
+                }
+            }
+
+            .poster {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: all 0.3s ease-in-out;
+            }
+
+            .like-show {
+                position: absolute;
+                z-index: 2;
+                bottom: 5px;
+                left: 5px;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+
+                .icon {
+                    width: 16px;
+                    height: 16px;
+                    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+                }
+            }
+
+            .mark {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 3;
+                font-size: 14px;
+                color: #dadada;
+                background-color: rgba(0, 0, 0, 0.6);
+                top: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         .on-more {
@@ -169,18 +216,24 @@
 
     .comment-container {
         width: 100%;
-        min-height: calc(100% - 15px);
+        height: calc(100% - 30px);
         padding: 15px;
         font-size: 14px;
         position: relative;
+        padding-bottom: 0;
+        overflow: hidden;
 
         .comment-body {
-            padding: 10px 0;
+            height: 100%;
+            overflow: scroll;
+            margin-top: 15px;
+            padding-bottom: 80px;
 
             .comment-item,
             .comment-item-reply {
                 display: flex;
                 gap: 10px;
+                margin-top: 15px;
 
                 .comment-item-avatar {
                     width: 35px;
@@ -252,7 +305,7 @@
                             }
                         }
 
-                        .comment-item-liked{
+                        .comment-item-liked {
                             cursor: pointer;
                             display: flex;
                             align-items: center;
@@ -281,7 +334,7 @@
                     align-items: center;
                     gap: 2px;
 
-                    .comment-item-name{
+                    .comment-item-name {
                         flex-shrink: 0;
                     }
 
@@ -328,13 +381,36 @@
 
         .comment-input {
             position: absolute;
-            bottom: 15px;
+            bottom: 0;
             width: calc(100% - 30px);
-            height: 40px;
+            height: 60px;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: end;
+
+            .reply-info {
+                height: 20px;
+                font-size: 13px;
+                background-color: #545454;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 5px;
+                align-items: center;
+                color: #8f8f8f;
+
+                .info {
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    flex-grow: 1;
+                }
+            }
 
             input {
                 width: 100%;
-                height: 100%;
+                height: 40px;
                 padding: 0 10px;
                 border: none;
                 background-color: #414141;
@@ -342,19 +418,48 @@
                 font-size: 14px;
                 border-radius: 10px;
                 outline: none;
+
+                &:focus {
+                    border: 1px solid #828282;
+                }
+            }
+
+            .input-active {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+
+                &:focus {
+                    border-top: none;
+                }
+
+                &:focus~.reply-info {
+                    border: 1px solid #828282;
+                    border-bottom: none;
+                }
             }
 
             .comment-input-button {
                 position: absolute;
                 right: 0;
-                top: 50%;
-                transform: translateY(-50%) scale(0);
+                bottom: 0;
+                transform: scale(0);
                 opacity: 0;
                 transition: all 0.3s ease-in-out;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 36px;
+                    height: 36px;
+                    cursor: pointer;
+                }
             }
 
-            .comment-input-button-visible{
-                transform: translateY(-50%) scale(1);
+            .comment-input-button-visible {
+                transform: scale(1);
                 opacity: 1;
             }
         }
